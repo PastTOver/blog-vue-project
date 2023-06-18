@@ -22,20 +22,21 @@
         </router-link>
       </ul>
     </nav>
-    <img class="img-fluid shadow" src="./assets/logo.png" @click="toggleMenu" v-show="loginimg" />
+    <img class="img-fluidshadow" :src="this.img" @click="toggleMenu" v-show="loginimg" />
     <button @click.prevent="exitbut">退出登录</button>
   </div>
   <router-view @returnToIndex="performActionOnIndex"></router-view>
 </template>
 
 <script>
-import { setToken, getToken, clearToken } from './storage.js'  //临时存放Token
+import { setToken, getToken, clearToken, getImg } from './storage.js'  //临时存放Token
 export default {
   data() {
     return {
       token: "",
       loginShow: true,   //未登录时默认为true，显示图标
-      loginimg: false
+      loginimg: false,
+      img: ""
     }
   },
   methods: {
@@ -59,8 +60,9 @@ export default {
     }
   },
   mounted() {   //页面刷新后，自动判断是否有Token
-    const token = getToken();
-    console.log(token)
+    const token = getToken()
+    this.img = getImg()
+    console.log(getImg())
     this.performActionOnIndex(token);
     if (token.length != 0) {
       this.loginShow = false
@@ -82,6 +84,10 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+}
+
+.img-fluidshadow {
+  width: 50px;
 }
 
 .containerhead {

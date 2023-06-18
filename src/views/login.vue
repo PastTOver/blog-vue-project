@@ -28,7 +28,7 @@
 <script>
 import axios from 'axios';
 import { useTransitionFallthroughEmits } from 'element-plus'
-import { setToken, getToken, clearToken } from '../storage.js'  //临时存放Token
+import { setToken, getToken, clearToken, setImg } from '../storage.js'  //临时存放Token
 export default {
     data() {
         return {
@@ -47,6 +47,17 @@ export default {
                     .then(res => {
                         if (res.data.code === 200) {
                             console.log('登录成功')
+                            const userData = res.data.data.userdata
+                            console.log(userData)
+                            const avatarRegex = /avatar=(.*?),/;  //获取JSON中的链接，这个是匹配
+                            const match = avatarRegex.exec(res.data.data.userdata);  //匹配数据
+                            if (match && match[1]) {
+                                const avatar = match[1];
+                                setImg(avatar)
+                                console.log(avatar);  //如果有就打印
+                            } else {
+                                console.log('Unable to extract avatar data');   //否则就错误
+                            }
                             // console.log(res.data.code)
                             // console.log(res.data.data.token)
                             this.$globaltoken = res.data.data.token
@@ -54,9 +65,9 @@ export default {
                             setToken(token)   //存放token到js中
                             console.log(getToken())
                             this.$emit('returnToIndex', token);   //将token返回给vue
-                            this.$router.push('/').then(() => { //网页跳转，并进行刷新
-                                location.reload()
-                            })
+                            // this.$router.push('/').then(() => { //网页跳转，并进行刷新
+                            //     location.reload()
+                            // })
                             // this.$router.push({ name: 'index', params: { token: "123" } });
                         } else {
                             alert('账号密码错误');
