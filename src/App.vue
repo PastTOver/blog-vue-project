@@ -22,8 +22,15 @@
         </router-link>
       </ul>
     </nav>
-    <img class="img-fluidshadow" :src="this.img" @click="toggleMenu" v-show="loginimg" />
-    <button @click.prevent="exitbut">退出登录</button>
+    <img class="img-fluidshadow" :src="this.img" @click="toggleDropdown" v-show="loginimg" /> <!--头像标签-->
+    <div class="dropdown" v-if="showDropdown">
+      <!-- 下拉框内容 -->
+      <ul>
+        <li><a @click.prevent="Personal">个人信息</a></li>
+        <li><a @click.prevent="exitbut">退出登录</a></li>
+
+      </ul>
+    </div>
   </div>
   <router-view @returnToIndex="performActionOnIndex"></router-view>
 </template>
@@ -36,15 +43,19 @@ export default {
       token: "",
       loginShow: true,   //未登录时默认为true，显示图标
       loginimg: false,
-      img: ""
+      img: "",
+      showDropdown: false, // 控制下拉框的显示和隐藏
     }
   },
   methods: {
+    toggleDropdown() {
+      this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
+    },
     performActionOnIndex(token) {
       // 在返回到 index.vue 时执行的操作，并返回参数
       console.log('App.vue 在返回到 index.vue 时执行的操作+123' + token)
       this.token = token
-      console.log(this.token.length)
+      // console.log(this.token.length)
       // if (this.token.length != 0) {
       //   this.loginShow = false
       //   this.loginimg = true
@@ -57,6 +68,9 @@ export default {
     }, exitbut() {   //退出登录按钮
       clearToken();
       location.reload();
+    }, Personal() {
+      this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
+      console.log("跳转到个人信息页面")
     }
   },
   mounted() {   //页面刷新后，自动判断是否有Token
@@ -88,6 +102,8 @@ export default {
 
 .img-fluidshadow {
   width: 50px;
+  height: 50px;
+  cursor: pointer;
 }
 
 .containerhead {
@@ -161,5 +177,33 @@ export default {
 .containerhead nav ul li.login-btn::after {
   display: none;
 
+}
+
+/* < !--这下面是关于点击头像出现下拉框的css代码--> */
+.avatar {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 50px;
+  left: 60%;
+  width: 100px;
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  padding: 5px;
+  cursor: pointer;
 }
 </style>
