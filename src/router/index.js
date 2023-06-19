@@ -7,14 +7,6 @@ const routes = [
     name: 'index',
     component: index,
     props: true,
-    // beforeEnter: (to, from, next) => {
-    //   // 在返回到 index.vue 时调用 App.vue 的方法
-    //   if (from.name === 'login') {
-    //     // 如果是从 login.vue 返回到 index.vue
-    //     App.methods.performActionOnIndex();
-    //   }
-    //   next();
-    // }
   },
   {
     path: '/resources',
@@ -56,7 +48,13 @@ const routes = [
     name: 'Vue',
     component: () => import(/* webpackChunkName: "Vue" */ '../App.vue'),
     props: true
-  },
+  }, {
+    path: '/testdemo',
+    name: 'testdemo',
+    component: () => import(/* webpackChunkName: "tetestdemosta.vue" */ '../views/testdemo.vue'),
+    props: true
+  }
+
 ]
 
 const router = createRouter({

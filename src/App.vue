@@ -1,5 +1,5 @@
 <template>
-  <div class="containerhead">
+  <div class="containerhead" v-if="labelshow">
     <nav>
       <ul>
         <router-link to="/">
@@ -18,7 +18,7 @@
           <li>博客</li>
         </router-link>
         <router-link to="/login">
-          <li class="login-btn" v-show="loginShow">登录</li>
+          <li class="login-btn" v-show="loginShow" @click="labelshowTF">登录</li>
         </router-link>
       </ul>
     </nav>
@@ -32,7 +32,7 @@
       </ul>
     </div>
   </div>
-  <router-view @returnToIndex="performActionOnIndex"></router-view>
+  <router-view @returnToIndex="performActionOnIndex" @returntitle="labelshowTF"></router-view>
 </template>
 
 <script>
@@ -44,10 +44,15 @@ export default {
       loginShow: true,   //未登录时默认为true，显示图标
       loginimg: false,
       img: "",
+      labelshow: true,
       showDropdown: false, // 控制下拉框的显示和隐藏
+
     }
   },
   methods: {
+    labelshowTF() {
+      this.labelshow = !this.labelshow;
+    },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
     },
@@ -66,6 +71,12 @@ export default {
       // }
 
     }, exitbut() {   //退出登录按钮
+      console.log(getToken())
+      this.$axios.get(this.$globalInternet + "/user/logout", {
+        headers: {
+          token: getToken()
+        }
+      })
       clearToken();
       location.reload();
     }, Personal() {
@@ -78,14 +89,17 @@ export default {
     this.img = getImg()
     console.log(getImg())
     this.performActionOnIndex(token);
-    if (token.length != 0) {
-      this.loginShow = false
-      this.loginimg = true
-    } else {
-      this.loginShow = true
-      this.loginimg = false
-    }
+    if (token !== null) {
+      if (token.length !== 0) {
+        this.loginShow = false
+        this.loginimg = true
+        console.log("abca")
+      } else {
+        this.loginShow = true
+        this.loginimg = false
+      }
 
+    }
   }
 
 }
@@ -104,6 +118,7 @@ export default {
   width: 50px;
   height: 50px;
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .containerhead {

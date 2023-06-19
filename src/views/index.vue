@@ -1,15 +1,23 @@
 <template>
+    <p></p>
+    <div class="site-info text-center">
+        <h1 class="site-title animate__animated animate__delay-4s animate__swing">知行合一</h1>
+        <div id="typed-strings">
+            <p class="site-subtitle lead text-muted">理论知识与实践相结合</p>
+        </div>
+        <!-- <span class="site-subtitle lead text-muted" id="typed"></span> -->
+    </div>
     <div class="features">
         <div class="feature">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 text-center text-lg-left align-self-center">
-                        <h3 class="feature-title">1资源</h3>
-                        <p class="lead text-muted">可以直接运行的小应用，便于学习</p>
+                        <h3 class="feature-title">小程序</h3>
+                        <p class="lead text-muted">简易的小应用，启蒙教育</p>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/resources.png" alt="coding">
+                            <img class="img-fluid shadow" src="../assets/images/logo.png" alt="coding">
                         </div>
                     </div>
                 </div>
@@ -24,9 +32,12 @@
                         <p class="lead text-muted">精心制作的视频合集，便于理解</p>
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0 order-2 order-lg-1">
-                        <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/videos.png" alt="design">
-                        </div>
+                        <el-carousel :interval="4000" type="card" height="200px">
+                            <el-carousel-item v-for="item in 6" :key="item">
+                                <h3 text="2xl" justify="center">{{ item }}</h3>
+                            </el-carousel-item>
+                        </el-carousel>
+
                     </div>
                 </div>
             </div>
@@ -41,7 +52,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/docs.png" alt="coding">
+                            <img class="img-fluid shadow" src="../assets/images/logo.png" alt="coding">
                         </div>
                     </div>
                 </div>
@@ -57,7 +68,7 @@
                     </div>
                     <div class="col-lg-6 mt-3 mt-lg-0 order-2 order-lg-1">
                         <div class="text-center" data-aos="zoom-in">
-                            <img class="img-fluid shadow" src="img/about/posts.png" alt="life">
+                            <img class="img-fluid shadow" src="../assets/images/logo.png" alt="life">
                         </div>
                     </div>
                 </div>
@@ -65,23 +76,10 @@
         </div>
 
     </div>
-    <footer class="blog-footer mt-auto">
-        <div class="container text-muted">
-            <p class="text-center text-lg-left">
-                <span>Designed by <a href="#">@example</a> - From idea to reality</span>
-            </p>
-        </div>
-    </footer>
 </template>
 
+  
 
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
+<style >
+@import '../assets/css/index.css';
 </style>
