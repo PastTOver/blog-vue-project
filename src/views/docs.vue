@@ -1,57 +1,40 @@
 <template>
-    <h3>文档</h3>
-    <div>
-        <img class="avatar" src="avatar.jpg" @click="toggleDropdown">
-        <div class="dropdown" v-if="showDropdown">
-            <!-- 下拉框内容 -->
-            <ul>
-                <li>选项1</li>
-                <li>选项2</li>
-            </ul>
+    <div class="h-100 my-md-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 mb-4">
+            <div class="row">
+              <div class="col-3">
+                <a href="docs-show.html">
+                  <!-- 这里放图片 -->
+                  <img src="../assets/images/logo.png" class="img-fluid shadow-sm">
+                </a>
+              </div>
+              <div class="col-9">
+                <a href="docs-show.html">
+                  <h2 class="h4">这里放标题</h2>
+                  <p class="text-muted font-size-14">这里放文档简介</p>
+                </a>
+                <p class="font-size-14"><a href="#">这里放作者</a></p>
+              </div>
+            </div>
+          </div>
         </div>
+        <nav class="kx-pagination d-flex mt-5 justify-content-end"></nav>
+      </div>
+      <footer class="blog-footer mt-auto">
+        <div class="container text-muted">
+          <p class="text-center text-lg-left">
+            <span>Designed by <a href="#">@example</a> - From idea to reality</span>
+          </p>
+        </div>
+      </footer>
     </div>
 </template>
-<script>
-export default {
-    data() {
-        return {
-            showDropdown: false, // 控制下拉框的显示和隐藏
-        };
-    },
-    methods: {
-        toggleDropdown() {
-            this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
-        },
-    },
-};
-</script>
+  
 
-<style>
-.avatar {
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    z-index: 1;
-}
-
-.dropdown {
-    position: absolute;
-    /* top: 60px;
-    left: 0; */
-    width: 200px;
-    background-color: #f1f1f1;
-    border: 1px solid #ccc;
-    padding: 10px;
-}
-
-.dropdown ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.dropdown li {
-    padding: 5px;
-    cursor: pointer;
-}
+  
+<style scoped>
+  @import '../assets/css/app.css';
 </style>
+  
