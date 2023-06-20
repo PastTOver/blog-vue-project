@@ -1,76 +1,53 @@
 <template>
-    <h3>博客</h3>
-    <p>{{ chengpin.title }}</p> <!--又因为这个是一个数组，所以通过.title的方式获取数据-->
-    <p>{{ chengpin.content }}</p>
-    <div>
-        <button @click="showModal = true">点击显示弹窗</button>
-
-        <!-- 弹窗部分 -->
-        <div class="modal" v-show="showModal">
-            <div class="modal-content">
-                <!-- 弹窗内容 -->
-                <h3>这是一个弹窗</h3>
-                <p>点击关闭按钮或背景以关闭弹窗</p>
-                <button @click="closeModal">关闭</button>
+    <div class="h-100">
+      <div class="container mt-md-3">
+        <div class="mx-lg-auto">
+          <div class="row">
+            <!-- 这里开始布数据 -->
+            <div class="col-md-6">
+              <article class="border-bottom h-100 pb-5 pt-md-0">
+                <div class="row justify-content-between">
+                  <div class="col-7">
+                    <h2 class="mb-2 h5">
+                        <!-- 这里放标题 -->
+                      <a class="text-inherit" href="posts-show.html">这里放标题</a>
+                    </h2>
+                    <div class="small text-muted">
+                      <a href="#">这里放作者</a>
+                      <span> - </span>
+                      <span title="2023-06-11 14:59:23">这里放日期</span>
+                      <span> - </span>
+                      <a href="#" class="badge badge-light font-weight-normal text-muted p-1">这里放文档关键词</a>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                    <div class="d-flex">
+                      <a href="posts-show.html" class="w-100">
+                        <img class="img-fluid shadow-sm rounded ratio-16x9" src="../assets/images/logo.png" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
             </div>
+          </div>
+          <nav class="kx-pagination d-flex mt-5 justify-content-end"></nav>
         </div>
+      </div>
+      <!-- 到这里结束 -->
+      <footer class="blog-footer mt-auto">
+        <div class="container text-muted">
+          <p class="text-center text-lg-left">
+            <span>Designed by <a href="#">@example</a> - From idea to reality</span>
+          </p>
+        </div>
+      </footer>
     </div>
-</template>
+  </template>
+  
 
-<script>
-export default {
-    data() {
-        return {
-            chengpin: "",
-            showModal: false,
-        }
-    }, methods: {
-        closeModal() {
-            this.showModal = false; // 关闭弹窗
-        },
-    },
-    mounted() {
-        this.$axios.get("http://iwenwiki.com/api/blueberrypai/getChengpinDetails.php")   //通过get方式请求
-            .then(res => {
-                console.log(res.data)
-                this.chengpin = res.data.chengpinDetails[0]  //chengpinDetails将这个字段复制给chengpin
-            }),
-            this.$axios.post("http://iwenwiki.com/api/blueberrypai/login.php", this.$querystring.stringify({
-                user_id: "iwen@qq.com",   //通过post请求，并且携带参数，同时使用querystring修改格式
-                password: "iwen123",
-                verification_code: "crfvw"
-            }))
-                .then(res => {
-                    console.log(res.data)
-                })
-    }
-}
-</script>
-
-<style>
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    /* 半透明背景，可以根据需要调整透明度 */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    /* 确保弹窗在其他内容之上 */
-}
-
-.modal-content {
-    background-color: #fff;
-    /* 弹窗内容的背景颜色 */
-    padding: 20px;
-    border-radius: 5px;
-}
-
-.modal button {
-    margin-top: 10px;
-}
+  
+<style scoped>
+  @import '../assets/css/app.css';
 </style>
+  
