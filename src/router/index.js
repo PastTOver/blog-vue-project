@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import index from '../views/index.vue'
+// import background from '../views/testdemo.vue'
 
 const routes = [
   {
@@ -7,6 +8,18 @@ const routes = [
     name: 'index',
     component: index,
     props: true,
+  }, 
+  //  {
+  //   path: '/background',
+  //   name: 'background',
+  //   component: background,
+  //   props: true,
+  // },
+  {
+    path: '/background',
+    name: 'background',
+    component: () => import(/* webpackChunkName: "resources" */ '../views/testdemo.vue'),
+    props: true
   },
   {
     path: '/resources',
