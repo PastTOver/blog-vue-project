@@ -1,5 +1,5 @@
 <template>
-    <div class="h-100">
+    <div class="h-100 my-md-3">
         <section class="video-collections-index">
             <div class="container">
                 <div class="row">
