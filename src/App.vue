@@ -28,7 +28,6 @@
       <ul>
         <li><a @click.prevent="Personal">个人信息</a></li>
         <li><a @click.prevent="exitbut">退出登录</a></li>
-
       </ul>
     </div>
   </div>
@@ -127,6 +126,7 @@ export default {
   align-items: center;
   justify-content: center;
   margin-left: 0px;
+  margin-bottom: 30px;
   /* 改导航栏位置 */
 }
 

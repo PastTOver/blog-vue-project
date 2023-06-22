@@ -5,6 +5,7 @@ import axios from 'axios'
 import querystring from "querystring"
 import ElementPlus from 'element-plus'
 import 'element-plus/theme-chalk/index.css'
+import store from './Storages'
 
 
 const app=createApp(App)
@@ -13,5 +14,6 @@ app.config.globalProperties.$globaltoken = "";
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$querystring = querystring
 
+app.use(store)
 app.use(ElementPlus)
 app.use(router).mount('#app')

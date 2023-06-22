@@ -1,0 +1,22 @@
+.qc-bigger {
+  transform: scale(1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.qc-bigger:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease-in-out;
+}
+
+/**
+渐变背景色
+*/
+.qc-gradual {
+  background-color: #fff;
+  padding: 20px;
+  transition: background-color 1s ease; /* 添加渐变过渡效果 */
+}
+
+.qc-gradual:hover {
+    background-image: linear-gradient(to bottom, #7ca6f9, rgb(212, 147, 249));
+}
