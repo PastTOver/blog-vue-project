@@ -68,9 +68,15 @@ const routes = [
     props: true
   },
   {
-    path: '/docDetail',
+    path: '/docDetail/:id',
     name: 'docDetail',
     component: () => import(/* webpackChunkName: "docDetail.vue" */ '../views/docDetail.vue'),
+    props: true
+  },
+  {
+    path: '/showMdDoc/:id',
+    name: 'showMdDoc',
+    component: () => import(/* webpackChunkName: "showMdDoc.vue" */ '../views/showMdDoc.vue'),
     props: true
   }
 
