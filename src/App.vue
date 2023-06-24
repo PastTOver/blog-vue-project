@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     labelshowTF() {
-      this.labelshow = !this.labelshow;
+      this.labelshow = false;
     },
     toggleDropdown() {
       this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
@@ -203,8 +203,8 @@ export default {
 
 .dropdown {
   position: absolute;
-  top: 50px;
-  left: 60%;
+  top: 79px;
+  left: -5%;
   width: 100px;
   background-color: #f1f1f1;
   border: 1px solid #ccc;

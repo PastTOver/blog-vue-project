@@ -82,6 +82,9 @@ export default {
   methods: {   //函数或方法
     returnhtml() {  //调用VUE事件
       this.$emit('returntitle');
+      this.$router.push('/').then(() => { //网页跳转，并进行刷新
+        location.reload()
+      })
     },
     closeModal() {   //微信登录弹窗
       if (!this.selectedOptions.includes('optionValue')) {
