@@ -25,6 +25,12 @@
     <el-col :span="3">
       <el-button @click="loadPageData" type="primary">查询</el-button>
     </el-col>
+
+     <el-col :span="3" v-if="token != undefinde">
+      <router-link to="myDocs">
+        文档管理
+      </router-link>
+    </el-col>
   </el-row>
 
   <el-row :gutter="20" justify="center">
@@ -88,6 +94,7 @@ export default {
        * 是否在加载
        */
       isLoading: true,
+      token:undefined,
     };
   },
   created() {},
@@ -107,6 +114,9 @@ export default {
     },
     init_page() {
       this.loadPageData();
+      console.log("token:---------")
+      this.token=this.$store.state.docStorage.token()
+      console.log(this.token)
     },
     loadPageData() {
       let vm = this;

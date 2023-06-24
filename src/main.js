@@ -9,7 +9,7 @@ import store from './Storages'
 
 
 const app=createApp(App)
-app.config.globalProperties.$globalInternet = "http://192.168.123.33:9001";  //设置全局变量
+app.config.globalProperties.$globalInternet = "http://127.0.0.1:9001";  //设置全局变量
 app.config.globalProperties.$globaltoken = "";
 app.config.globalProperties.$axios = axios
 app.config.globalProperties.$querystring = querystring

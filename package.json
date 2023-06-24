@@ -11,8 +11,9 @@
     "axios": "^1.4.0",
     "core-js": "^3.31.0",
     "element-plus": "^2.3.6",
-    "element-ui": "^2.15.13",
     "fs": "^0.0.1-security",
+    "markdown-it": "^13.0.1",
+    "markdown-it-toc-done-right": "^4.2.0",
     "marked": "^5.1.0",
     "querystring": "^0.2.1",
     "vue": "^3.2.13",
@@ -27,6 +28,7 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
+    "babel-plugin-static-fs": "^3.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },

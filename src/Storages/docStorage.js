@@ -1,4 +1,4 @@
-import { getToken } from "@/storage";
+import { getToken, clearToken } from "@/storage";
 import axios from "axios";
 
 const docStorage = {
@@ -21,24 +21,35 @@ const docStorage = {
   actions: {
     getPageDoc({ commit, state }, params) {
       return axios.get(state.docBaseUrl + "/blog_course", {
-        params,
-        headers: {
-          token: state.token(),
-        },
+        params
       });
     },
     getDocDetail({ commit, state }, params) {
       return axios.get(state.docBaseUrl + "/document_course/" + params.id, {
+      });
+    },
+    getDocDetail_Free({ commit, state }, params) {
+      return axios.get(state.docBaseUrl + "/document_course/free", {
         headers: {
           token: state.token(),
         },
+        params
+      });
+    },
+    getDocDetailBy_DetailId_Free({ commit, state }, params) {
+      return axios.get(state.docBaseUrl + "/document_docById/free" ,{
+        headers: {
+          token: state.token(),
+        },
+        params
       });
     },
     getDocDetailBy_DetailId({ commit, state }, params) {
-      return axios.get(state.docBaseUrl + "/document_docById/" + params.id, {
+      return axios.get(state.docBaseUrl + "/document_docById" ,{
         headers: {
           token: state.token(),
         },
+        params
       });
     },
     /**
@@ -52,6 +63,24 @@ const docStorage = {
         url: params.url,
         responseType: "stream",
       });
+    },
+    getSelfDoc({ commit, state }, params) {
+      return axios.get(state.docBaseUrl + "/documents/mine", {
+        params,
+        headers: {
+          token: state.token(),
+        },
+      });
+    },
+    //清除token
+    respFilter({ commit, state }, { resp }) {
+      if (resp.data.code == 208) {
+        alert("您的登录已经过期，请重新登录");
+        //清除token
+        clearToken()
+        //跳转首页
+        this.$router.push('login')
+      }
     },
     /**
      * 使用样例

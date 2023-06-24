@@ -78,12 +78,19 @@ const routes = [
     name: 'showMdDoc',
     component: () => import(/* webpackChunkName: "showMdDoc.vue" */ '../views/showMdDoc.vue'),
     props: true
+  },
+  {
+    path: '/myDocs',
+    name: 'myDocs',
+    component: () => import(/* webpackChunkName: "myDocs.vue" */ '../views/myDocs.vue'),
+    props: true
   }
 
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
+  // mode:'history'
   routes
 })
 
