@@ -66,6 +66,18 @@ const routes = [
     name: 'testdemo',
     component: () => import(/* webpackChunkName: "tetestdemosta.vue" */ '../views/testdemo.vue'),
     props: true
+  },
+  {
+    path: '/docDetail/:id',
+    name: 'docDetail',
+    component: () => import(/* webpackChunkName: "docDetail.vue" */ '../views/docDetail.vue'),
+    props: true
+  },
+  {
+    path: '/showMdDoc/:id',
+    name: 'showMdDoc',
+    component: () => import(/* webpackChunkName: "showMdDoc.vue" */ '../views/showMdDoc.vue'),
+    props: true
   }
 
 ]
