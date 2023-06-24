@@ -4703,6 +4703,15 @@ pre code {
   margin-left: -15px;
 }
 
+.row-res {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-top: -95px;
+}
+
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;
