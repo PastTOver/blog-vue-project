@@ -53,8 +53,28 @@
             </div>
           </div>
           <!-- 证书 -->
-          <div class="col-3">
-
+          <div v-if="certData" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+            <h3>已获得证书:</h3>
+            <img
+              class="img-fluid shadow-sm"
+              src="http://localhost:9001/static/defaultValues/img.png"
+            />
+            <h4>证书名称</h4>
+          </div>
+          <div v-if="!certData && certProgress.resourceCount==0" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+            <h5>本模块暂时无任何视频，未颁布证书</h5>
+            <img
+              class="img-fluid shadow-sm"
+              src="http://localhost:9001/static/defaultValues/img.png"
+            />
+          </div>
+          <div v-if="!certData && certProgress.resourceCount>0" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+            <h5>正在学习中~您的完成进度为:</h5>
+            <img
+              class="img-fluid shadow-sm"
+              src="http://localhost:9001/static/defaultValues/img.png"
+            />
+            <el-progress style="margin-top:25px" :percentage="50" />
           </div>
         </div>
         <div
@@ -153,6 +173,13 @@ export default {
   },
   data() {
     return {
+      certParams: {
+        /**
+         * 表示videoType
+         */
+        resourceType: 1,
+        topicId: undefined,
+      },
       activeName: [],
       docDetail: {
         documentTopics: {
@@ -167,9 +194,46 @@ export default {
         },
       },
       sourceCount: 0,
+      certData:undefined,
+      certProgress:{
+      }
     };
   },
   methods: {
+    loadDocCert() {
+      //修改topicId
+      this.certParams.topicId = this.$props.id;
+      console.log(this.certParams.topicId);
+      let vm = this;
+      if (this.certParams.topicId)
+        this.$store
+          .dispatch("User_Cert_GET", {
+            topicId: vm.certParams.topicId,
+            resourceType:1
+          })
+          .then((resp) => {
+            console.log(resp);
+            //this.$store.dispatch("respFilter", { resp });
+            let certData=resp.data.data
+            if(resp.data.code==200){
+              //有证书
+              certData=certData
+            }else if(resp.data.code==201){
+              console.log('没证书:');
+              console.log(certData)
+              //没有证书
+              if(certData.resourceCount==0){
+                //视频资源为0 不颁发证书
+                vm.certData=undefined
+                vm.certProgress=certData
+              }else{
+                //显示进度
+                vm.certData=undefined
+                vm.certProgress=certData
+              }
+            }
+          });
+    },
     /**
      * 处理208请求
      */
@@ -191,6 +255,7 @@ export default {
     },
     init_page() {
       this.loadPageData();
+      this.loadDocCert();
     },
     loadPageData() {
       let vm = this;

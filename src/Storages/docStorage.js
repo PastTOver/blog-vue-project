@@ -65,6 +65,7 @@ const docStorage = {
      * @param {*} params
      */
     getDocDetail_Resource({ commit, state }, params) {
+      console.log('资源地址:',params.url)
       return axios({
         method: "get",
         url: params.url,
@@ -163,9 +164,19 @@ const docStorage = {
         }
       )
     },
-    User_Cert_GET(){
-
+    User_Cert_GET({commit,state},params){
+      console.log('cert_params:----')
+      console.log(params)
+      return axios.get(state.certBaseUrl+'/cert',{
+          headers:{
+            token: state.token()
+          },
+          params
+        }
+      )
     },
+    //payment
+    
     //清除token
     respFilter({ commit, state }, { resp }) {
       if (resp.data.code == 208) {

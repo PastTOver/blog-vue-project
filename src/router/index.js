@@ -91,6 +91,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "docDetailUpdate.vue" */ '../views/docDetailUpdate.vue'),
     props: true
   },
+  {
+    path: '/paymentbutton',
+    name: 'Paymentbutton',
+    component: () => import(/* webpackChunkName: "Paymentbutton.vue" */ '../views/PaymentButton.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

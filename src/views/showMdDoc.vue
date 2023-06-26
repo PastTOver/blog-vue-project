@@ -125,11 +125,13 @@ export default {
      * 加载md
      */
     loadMdSourece(vm) {
+      console.log("加载MD中")
       vm.$store
         .dispatch("getDocDetail_Resource", { url: vm.pageData.documentPath })
         .then((resp) => {
           console.log(resp);
           vm.mdtext = marked(resp.data);
+          console.log(vm.mdtext)
           //vm.$set(vm,'mdtext', marked(resp.data))
           setTimeout(() => {
             (vm.tochtml = vm.toc()), 1000;

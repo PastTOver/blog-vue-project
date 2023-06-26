@@ -2,12 +2,25 @@
     <div class="h-100 my-md-3">
         <section class="video-collections-index">
             <div class="container">
+
+                <!--这下面是搜索框-->
+                <el-form :inline="true" size="small" label-width="100px">
+                    <el-form-item>
+                        <el-input v-model="keywords" placeholder="请输入搜索关键字" style="width: 200px; margin-right: 10px;"
+                            class="custom-input"></el-input>
+                        <el-input v-model="publisher" placeholder="请输入搜索作者" style="width: 200px; margin-right: 10px;"
+                            class="custom-input"></el-input>
+                        <el-button type="primary" @click="getData">查询</el-button>
+                        <el-button type="default" @click="getDataClear">清空</el-button>
+                    </el-form-item>
+                </el-form>
+                <p></p>
                 <div class="row">
-                    <div class="col-lg-4 mb-4">
+                    <div class="col-lg-4 mb-4" v-for="userlist in   user  " :key="user.id"> <!--从这里开始循环-->
                         <div class="card h-100 video-card">
                             <div style="position: relative;">
-                                <a href="videos-show.html">
-                                    <img src="../assets/images/logo.png" class="card-img ratio-16x9"> <!-- 这里放封面 -->
+                                <a href="videos-show.html" @click.prevent="JumpVideo()">
+                                    <img :src="userlist.videoImage" class="card-img ratio-16x9"> <!-- 这里放封面 -->
                                     <span class="video-player-btn video-player-centered text-center">
                                         <span class="video-player-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -20,24 +33,29 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <a href="videos-show.html">
-                                    <h5 class="card-title">这里放标题</h5>
-                                    <p class="card-text text-muted" title="">这里放简介</p>
+                                <a href="videos-show.html" @click.prevent="JumpVideo()">
+                                    <h5 class="card-title">{{ userlist.videoName }}</h5> <!--这个是视频名称-->
+                                    <p class="card-text text-muted" title="">{{ userlist.videoSummary }}</p>
                                 </a>
                             </div>
                             <div class="card-footer border-top-0 bg-white d-flex justify-content-between">
                                 <div>
-                                    <a href="#">这里放作者</a>
+                                    <a href="#" @click.prevent="JumpVideo()">{{ userlist.publisher }}</a> <!--这边是作者-->
                                 </div>
                                 <div>
-                                    <small class="text-muted">共 XX 节视频</small>
+                                    <!-- <small class="text-muted">共 XX 节视频</small> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <el-pagination :current-page="page" :total="total" :page-size="limit" :page-sizes="[6, 12, 24, 36]"
+                    style="padding: 20px 0;" layout="prev, pager, next, jumper, ->, sizes, total" @current-change="getUsers"
+                    @size-change="handleSizeChange" />
             </div>
+
         </section>
+
         <footer class="blog-footer mt-auto">
             <div class="container text-muted">
                 <p class="text-center text-lg-left">
@@ -48,7 +66,90 @@
     </div>
 </template>
   
+
+
+<script>
+import axios from 'axios';
+import { useTransitionFallthroughEmits } from 'element-plus'
+import { setToken, getToken, clearToken, setImg } from '../storage.js'  //临时存放Token
+export default {
+    data() {
+        return {
+            user: {},  //存放数据，
+            page: 1, // 当前页码
+            limit: 6, // 每页数量
+            total: 0, // 总数量
+            keywords: '', //这两个用户搜索
+            publisher: ''
+        }
+    },
+    mounted() {
+        this.getData(); // 页面加载时调用获取数据的函数
+    },
+    methods: {   //函数或方法
+        getData() {   //请求所有数据
+            axios.get(this.$globalInternet + '/course/video_course', {
+                params: {
+                    page_size: this.limit,
+                    current: this.page,
+                    keywords: this.keywords,
+                    publisher: this.publisher
+                },
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+                .then(response => {
+                    // 请求成功处理逻辑
+                    this.user = response.data.data.records
+                    // console.log(response.data.data.records);
+                    console.log(response.data)
+                    this.total = response.data.data.total
+                })
+                .catch(error => {
+                    // 请求失败处理逻辑
+                    console.error(error);
+                });
+        },
+        JumpVideo() {
+            console.log("test")
+        },
+
+        getDataClear() {
+            // 清空搜索内容
+            this.keywords = '';
+            this.publisher = '';
+            this.getData()   //清空完在查询一次
+        },
+        async getUsers(page = 1) {
+            this.page = page
+            // console.log(this.page, this.limit)
+            // this.user = {}
+            this.getData()
+        },
+
+        /*
+        处理pageSize发生改变的监听回调
+        */
+        handleSizeChange(pageSize) {
+            this.limit = pageSize
+            this.getUsers()
+        },
+    }
+}
+</script>
+
 <style scoped>
 @import '../assets/css/app.css';
+
+::v-deep .custom-input input {
+    font-size: 14px;
+    /* 设置搜索框中的文字大小 */
+}
+
+.search-card {
+    padding: 20px;
+    height: ;
+    /* 调整卡片的内边距 */
+}
 </style>
-  
