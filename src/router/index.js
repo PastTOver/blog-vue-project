@@ -84,8 +84,13 @@ const routes = [
     name: 'myDocs',
     component: () => import(/* webpackChunkName: "myDocs.vue" */ '../views/myDocs.vue'),
     props: true
-  }
-
+  },
+  {
+    path: '/docDetailUpdate/:id',
+    name: 'docDetailUpdate',
+    component: () => import(/* webpackChunkName: "docDetailUpdate.vue" */ '../views/docDetailUpdate.vue'),
+    props: true
+  },
 ]
 
 const router = createRouter({

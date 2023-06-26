@@ -32,7 +32,6 @@
       </router-link>
     </el-col>
   </el-row>
-
   <el-row :gutter="20" justify="center">
     <!-- data for -->
     <el-col

@@ -41,11 +41,11 @@ export default {
      * 处理208请求
      */
     handleNoAuth() {
-        alert("您还未登录，请返回登录页面进行登录！");
-        clearToken()
-        this.globalLoading(false);
-        window.location.href = "http://localhost:8080/#/login";
-        return;
+      alert("您还未登录，请返回登录页面进行登录！");
+      clearToken();
+      this.globalLoading(false);
+      window.location.href = "http://localhost:8080/#/login";
+      return;
     },
     toc() {
       const headings = Array.from(
@@ -80,40 +80,46 @@ export default {
     },
     loadPageData() {
       let vm = this;
-      /**
-       * 1. 尝试获取免费资源
-       */
-      this.$store
-        .dispatch("getDocDetailBy_DetailId_Free", { detailId: this.$props.id })
-        .then((resp) => {
-          console.log(resp)
-          //如果资源不是免费资源
-          if (resp.data.code == 209) {
-            //去获取收费接口数据
-            vm.$store
-              .dispatch("getDocDetailBy_DetailId", { detailId: vm.$props.id })
-              .then((resp2) => {
-                          console.log(resp2)
-                if (resp2.data.code == 208) {
-                  vm.handleNoAuth();
-                  return;
-                }
-                if (resp2.data.code == 209) {
-                  alert("请先购买本模块内容!");
-                  vm.globalLoading(false);
-                  window.location.href = "http://localhost:8080/#/";
-                  return;
-                }
-                vm.pageData = resp2.data.data;
-                vm.loadMdSourece(vm);
-              });
-            return;
-          }
-          console.log("resp:----------");
-          console.log(resp);
-          vm.pageData = resp.data.data;
-          vm.loadMdSourece(vm);
-        });
+      if (!getToken()) {
+        this.$store
+          .dispatch("getDocDetailBy_DetailId_Free", {
+            detailId: this.$props.id,
+          })
+          .then((resp) => {
+            console.log("免费资源获取返回值：-----------");
+            console.log(resp);
+            /**
+             * 如果没权限 就让用户先登录
+             */
+            if (resp.data.code == 208) {
+              vm.handleNoAuth();
+              return;
+            }
+            vm.pageData = resp.data.data;
+            vm.loadMdSourece(vm);
+          });
+      } else {
+        console.log("付费")
+        //如果登录了 去返回付费接口
+        vm.$store
+          .dispatch("getDocDetailBy_DetailId", { detailId: vm.$props.id })
+          .then((resp2) => {
+            console.log(resp2);
+            if (resp2.data.code == 208) {
+              vm.handleNoAuth();
+              return;
+            }
+            //表示没购买
+            if (resp2.data.code == 209) {
+              alert("请先购买本模块内容!");
+              vm.globalLoading(false);
+              window.location.href = "http://localhost:8080/#/";
+              return;
+            }
+            vm.pageData = resp2.data.data;
+            vm.loadMdSourece(vm);
+          });
+      }
     },
     /**
      * 加载md

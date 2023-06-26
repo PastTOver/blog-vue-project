@@ -15,7 +15,7 @@
               :src="docDetail.documentTopics.documentImage"
             />
           </div>
-          <div class="col-6">
+          <div class="col-9">
             <div class="base-info">
               <p class="font-size-12 text-muted mb-1">名称</p>
               <h1 class="h4">{{ docDetail.documentTopics.documentName }}</h1>
@@ -52,10 +52,6 @@
               <p v-else class="text-success">免费</p>
             </div>
           </div>
-          <!-- 证书 -->
-          <div class="col-3">
-
-          </div>
         </div>
         <div
           class="collections-syllas-box mt-5"
@@ -85,42 +81,82 @@
                 <div id="collapse-1" class="lecture-list collapse show">
                   <ul class="font-size-20">
                     <div v-for="sitem in item.sonContent">
-                      <router-link
-                        v-if="sitem.canShow"
-                        :to="{ name: 'showMdDoc', params: { id: sitem.id } }"
-                      >
-                        <li class="lecture doc">
-                          <span class="lecture-title">{{
-                            sitem.titleName
-                          }}</span>
-                          <div class="float-right">
-                            <div
-                              v-if="sitem.resourceIsFree == 0"
-                              style="color: green"
+                      <li class="lecture doc">
+                        <span class="lecture-title">
+                          <el-popover
+                            placement="top-start"
+                            title="修改"
+                            :width="200"
+                            :height="400"
+                            trigger="click"
+                          >
+                            <template #reference>
+                              {{ sitem.titleName }}
+                            </template>
+                            <el-input
+                              v-loading="freeChangeLoading"
+                              v-model="sitem.titleName"
+                              placeholder="不能为空"
+                            />
+                            <el-button @click="handlerFreeChange(sitem)"
+                              >确认修改</el-button
                             >
-                              本资源免费
-                            </div>
-                            <div v-else-if="sitem.canShow" style="color: green">
-                              您已购买，可直接查看
-                            </div>
-                            <div v-else style="color: red">
-                              请先购买本模块内容
-                            </div>
-                          </div>
-                        </li>
-                      </router-link>
-                      <li
-                        @click="this.$alert('您请先购买本模块内容', '提示')"
-                        style="cursor: pointer"
-                        v-else
-                        class="lecture doc"
-                      >
-                        <span class="lecture-title">{{ sitem.titleName }}</span>
-                        <div class="float-right">
-                          <div v-if="!sitem.canShow" style="color: red">
-                            付费解锁
-                          </div>
-                          <div v-else style="color: green">免费</div>
+                          </el-popover>
+                        </span>
+                        <div class="float-left">
+                          <el-popover
+                            placement="top-start"
+                            title="修改"
+                            :width="200"
+                            :height="400"
+                            trigger="click"
+                          >
+                            <template #reference>
+                              <div>
+                                <div
+                                  v-if="sitem.resourceIsFree == 0"
+                                  style="color: green; padding: 0px 25px"
+                                >
+                                  免费
+                                </div>
+                                <div v-else style="color: red; padding: 0px 25px">收费</div>
+                              </div>
+                            </template>
+                            <el-select
+                              v-loading="freeChangeLoading"
+                              @change="handlerFreeChange(sitem)"
+                              v-model="sitem.resourceIsFree"
+                            >
+                              <el-option value="0" label="免费" />
+                              <el-option value="1" label="收费" />
+                            </el-select>
+                          </el-popover>
+                        </div>
+
+                        <div class="float-left" style="padding: 0px 25px">
+                          <el-popover
+                            placement="top-start"
+                            title="修改"
+                            :width="200"
+                            :height="400"
+                            trigger="click"
+                          >
+                            <template #reference>
+                              <div>
+                                排序:{{sitem.sort}},点击修改
+                              </div>
+                            </template>
+                            <el-input-number
+                                step="0.01"
+                                :precision="2"
+                              v-loading="freeChangeLoading"
+                              v-model="sitem.sort"
+                              placeholder="不能为空"
+                            />
+                            <el-button @click="handlerFreeChange(sitem)"
+                              >确认修改</el-button
+                            >
+                          </el-popover>
                         </div>
                       </li>
                     </div>
@@ -139,7 +175,7 @@
 </template>
 
 <script>
-import { ElLoading } from "element-plus";
+import { ElLoading, ElMessageBox } from "element-plus";
 import { getToken, clearToken } from "@/storage";
 export default {
   setup() {},
@@ -153,6 +189,8 @@ export default {
   },
   data() {
     return {
+      freeChangeLoading: false,
+      //-------
       activeName: [],
       docDetail: {
         documentTopics: {
@@ -170,6 +208,35 @@ export default {
     };
   },
   methods: {
+    /**
+     * 注册点击事件
+     */
+    handleFatherClick() {
+      console.log("doing");
+    },
+    fatherTitltHandler(event, val) {
+      console.log("doing");
+    },
+    handlerFreeChange(val, val2) {
+      let vm = this;
+      console.log(val);
+      console.log(val2);
+      console.log(this.docDetail.sonContent);
+      this.freeChangeLoading = true;
+      /**
+       * updateDocDetail
+       */
+      this.$store.dispatch("Owner_Document_Detail_UPDATE", val).then((resp) => {
+        vm.$store.dispatch("respFilter", { resp });
+        console.log(resp);
+        ElMessageBox.alert("修改成功");
+        vm.freeChangeLoading = false;
+      });
+    },
+    /**
+     * 修改文档的详细
+     */
+    updateDocDetail() {},
     /**
      * 处理208请求
      */
@@ -252,6 +319,7 @@ export default {
         });
         vm.sourceCount = count;
       }
+      //vm.fatherSonClickRegister()
       //console.log(vm.docDetail);
     },
     showAll() {
