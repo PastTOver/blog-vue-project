@@ -97,6 +97,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "Paymentbutton.vue" */ '../views/PaymentButton.vue'),
     props: true
   },
+  {
+    path: '/resources-show',
+    name: 'resources-show',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/resources-show.vue'),
+    props: true
+  }
 ]
 
 const router = createRouter({
