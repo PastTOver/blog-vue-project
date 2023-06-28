@@ -114,6 +114,8 @@ const routes = [
     name: 'videos-show-leture',
     component: () => import(/* webpackChunkName: "videos-show-leture.vue" */ '../views/videos-show-leture.vue'),
     props: true
+  },
+  {
     path: '/resources-show',
     name: 'resources-show',
     component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/resources-show.vue'),
