@@ -1,54 +1,69 @@
 <template>
-    <div class="h-100">
-        <section class="video-collections-index">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-4 mb-4">
-                        <div class="card h-100 video-card">
-                            <div style="position: relative;">
-                                <a href="videos-show.html">
-                                    <img src="../assets/images/logo.png" class="card-img ratio-16x9"> <!-- 这里放封面 -->
-                                    <span class="video-player-btn video-player-centered text-center">
-                                        <span class="video-player-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                                                <path
-                                                    d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
-                                            </svg>
-                                        </span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <a href="videos-show.html">
-                                    <h5 class="card-title">这里放标题</h5>
-                                    <p class="card-text text-muted" title="">这里放简介</p>
-                                </a>
-                            </div>
-                            <div class="card-footer border-top-0 bg-white d-flex justify-content-between">
-                                <div>
-                                    <a href="#">这里放作者</a>
-                                </div>
-                                <div>
-                                    <small class="text-muted">共 XX 节视频</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <footer class="blog-footer mt-auto">
-            <div class="container text-muted">
-                <p class="text-center text-lg-left">
-                    <span>Designed by <a href="#">@example</a> - From idea to reality</span>
-                </p>
-            </div>
-        </footer>
-    </div>
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="行政">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域">
+            <el-select v-model="form.region" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="活动时间">
+            <el-col :span="11">
+                <el-date-picker type="date" placeholder="选择日期" v-model="form.date1" style="width: 100%;"></el-date-picker>
+            </el-col>
+            <el-col class="line" :span="2">-</el-col>
+            <el-col :span="11">
+                <el-time-picker placeholder="选择时间" v-model="form.date2" style="width: 100%;"></el-time-picker>
+            </el-col>
+        </el-form-item>
+        <el-form-item label="即时配送">
+            <el-switch v-model="form.delivery"></el-switch>
+        </el-form-item>
+        <el-form-item label="活动性质">
+            <el-checkbox-group v-model="form.type">
+                <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+                <el-checkbox label="地推活动" name="type"></el-checkbox>
+                <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+                <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+            </el-checkbox-group>
+        </el-form-item>
+        <el-form-item label="特殊资源">
+            <el-radio-group v-model="form.resource">
+                <el-radio label="线上品牌商赞助"></el-radio>
+                <el-radio label="线下场地免费"></el-radio>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item label="活动形式">
+            <el-input type="textarea" v-model="form.desc"></el-input>
+        </el-form-item>
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">立即创建</el-button>
+            <el-button>取消</el-button>
+        </el-form-item>
+    </el-form>
 </template>
-  
-<style scoped>
-@import '../assets/css/app.css';
-</style>
-  
+<script>
+export default {
+    data() {
+        return {
+            form: {
+                name: '',
+                region: '',
+                date1: '',
+                date2: '',
+                delivery: false,
+                type: [],
+                resource: '',
+                desc: ''
+            }
+        }
+    },
+    methods: {
+        onSubmit() {
+            console.log('submit!');
+        }
+    }
+}
+</script>

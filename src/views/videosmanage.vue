@@ -2,18 +2,19 @@
     <div class="h-100 my-md-3">
         <section class="video-collections-index">
             <div class="container">
-
+                <h3>{{ this.userName }}的视频管理页面</h3>
                 <!--这下面是搜索框-->
                 <el-form :inline="true" size="small" label-width="100px">
                     <el-form-item>
                         <el-input v-model="keywords" placeholder="搜索关键字" style="width: 200px; margin-right: 10px;"
                             class="custom-input"></el-input>
-                        <el-input v-model="publisher" placeholder="搜索作者" style="width: 200px; margin-right: 10px;"
-                            class="custom-input"></el-input>
+                        <!-- <el-input v-model="publisher" placeholder="搜索作者" style="width: 200px; margin-right: 10px;"
+                            class="custom-input"></el-input> -->
                         <el-button type="primary" @click="getData">查询</el-button>
                         <el-button type="default" @click="getDataClear">清空</el-button>
                         <span class="spacer"></span> <!-- 添加间距的占位元素 -->
-                        <el-button type="info" @click="routemanage">视频管理</el-button>
+                        <el-button type="success" @click="add">添加</el-button>
+                        <el-button type="info" @click="exit"> 返回</el-button>
 
                     </el-form-item>
                 </el-form>
@@ -50,16 +51,21 @@
                                     <!-- <small class="text-muted">共 XX 节视频</small> -->
                                 </div>
                             </div>
+                            <div class="d-flex justify-content-around">
+                                <el-button type="primary">修改</el-button>
+                                <el-button type="danger"
+                                    @click.prevent="deleteVideo(userlist.id, userlist.videoName)">删除</el-button>
+                            </div>
+                            <p></p>
                         </div>
                     </div>
                 </div>
+
                 <el-pagination :current-page="page" :total="total" :page-size="limit" :page-sizes="[6, 12, 24, 36]"
                     style="padding: 20px 0;" layout="prev, pager, next, jumper, ->, sizes, total" @current-change="getUsers"
                     @size-change="handleSizeChange" />
             </div>
-
         </section>
-
         <footer class="blog-footer mt-auto">
             <div class="container text-muted">
                 <p class="text-center text-lg-left">
@@ -86,15 +92,21 @@ export default {
             limit: 6, // 每页数量
             total: 0, // 总数量
             keywords: '', //这两个用户搜索
-            publisher: ''
+            publisher: '',
+            userName: null,  //存放用户名
         }
     },
     mounted() {
+        this.userName = this.$route.query.userName
+        const userid = this.$route.query.id
         this.getData(); // 页面加载时调用获取数据的函数
+        // console.log(this.userName, 'test')
     },
+
     methods: {   //函数或方法
         getData() {   //请求所有数据
-            axios.get(this.$globalInternet + '/course/video_course', {
+            // console.log(userid, 'test')
+            axios.get(this.$globalInternet + '/course/video/mine', {
                 params: {
                     page_size: this.limit,
                     current: this.page,
@@ -102,7 +114,8 @@ export default {
                     publisher: this.publisher
                 },
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    token: getToken()
                 }
             })
                 .then(response => {
@@ -117,35 +130,9 @@ export default {
                     console.error(error);
                 });
         },
-        JumpVideo(serlist, id) {
-            console.log(serlist, id)
-            this.$router.push({ path: '/videosDetail', query: { id: id, serlist: JSON.stringify(serlist) } }); // 替换成你要跳转的路由路径和参数
-        },
 
-        routemanage() {
-            if (getToken() === null) {
-                ElMessage.warning('请登录账号');
-                return
-            }
-            axios.get(this.$globalInternet + "/user/get", {
-                headers: {
-                    token: getToken(), // 使用 getToken() 获取 token 的值
-                }
-            }).then(res => {
-                console.log(res.data);
-                if (res.data.code === 200) {
-                    // console.log(res.data.data.userName)
-                    const id = res.data.data.id
-                    this.$router.push({ path: '/videosmanage', query: { id: id, userName: res.data.data.userName } });
-                } else {
-                    ElMessage({
-                        message: '账号异常或账号无视频',
-                        type: 'error',
-                    });
-                    return
-                }
-            });
-
+        exit() {
+            this.$router.push({ path: '/videos' });
         },
 
         getDataClear() {
@@ -168,6 +155,48 @@ export default {
             this.limit = pageSize
             this.getUsers()
         },
+
+        deleteVideo(deleteid, deletename) {
+            // 点击删除
+            this.$confirm('确定要删除《' + deletename + '》该视频吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                // 用户点击了确认按钮
+                // 在这里执行删除视频的操作
+                console.log('执行删除操作');
+                //删除整个视频
+                axios.delete(this.$globalInternet + '/course/video_course', {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'token': getToken()
+                    },
+                    data: {
+                        id: deleteid
+                    }
+                })
+                    .then(response => {
+                        // 删除成功处理逻辑
+                        console.log('删除成功');
+                        console.log(response.data)
+                    })
+                    .catch(error => {
+                        // 删除失败处理逻辑
+                        console.error('删除失败', error);
+                    });
+                ElMessage.success('删除成功');
+                location.reload();
+                return
+            }).catch(() => {
+                // 用户点击了取消按钮
+                console.log('取消删除操作');
+            });
+        },
+
+        add() {
+            console.log('添加视频信息')
+        }
     }
 }
 </script>
@@ -182,7 +211,7 @@ export default {
 
 .search-card {
     padding: 20px;
-    height: ;
+    /* height: ; */
     /* 调整卡片的内边距 */
 }
 
