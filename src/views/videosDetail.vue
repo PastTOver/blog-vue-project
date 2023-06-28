@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { getToken } from '@/storage';
+import { getToken, setUrl, getUrl, clearUrl } from '@/storage';
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 
@@ -96,6 +96,7 @@ export default {
   },
   mounted() {
     // 获取路由参数
+    setUrl(window.location.href)
     const videoId = this.$route.query.id;
     this.serlist = JSON.parse(this.$route.query.serlist);
     this.videoId = videoId
@@ -241,6 +242,7 @@ export default {
           console.log(response.data);
           this.skipHtml = response.data
           setTimeout(() => { document.forms[0].submit(); }, 500)
+          console.log(this.skipHtml, '!!!!!!!!!!!!!!!!!!!!!!')
         })
         .catch(error => {
           // 请求失败的处理逻辑

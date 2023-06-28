@@ -13,7 +13,7 @@
                         <el-button type="primary" @click="getData">查询</el-button>
                         <el-button type="default" @click="getDataClear">清空</el-button>
                         <span class="spacer"></span> <!-- 添加间距的占位元素 -->
-                        <el-button type="success" @click="add">添加</el-button>
+                        <el-button type="success" @click.prevent="Jumpmodify()">添加</el-button>
                         <el-button type="info" @click="exit"> 返回</el-button>
 
                     </el-form-item>
@@ -52,7 +52,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-around">
-                                <el-button type="primary">修改</el-button>
+                                <el-button type="primary" @click.prevent="Jumpmodify(userlist)">修改</el-button>
                                 <el-button type="danger"
                                     @click.prevent="deleteVideo(userlist.id, userlist.videoName)">删除</el-button>
                             </div>
@@ -196,6 +196,10 @@ export default {
 
         add() {
             console.log('添加视频信息')
+        },
+
+        Jumpmodify(introduction) {   //跳转修改或者添加视频简介
+            console.log(introduction)
         }
     }
 }

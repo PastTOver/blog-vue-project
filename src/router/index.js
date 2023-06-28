@@ -122,6 +122,12 @@ const routes = [
     props: true
   },
   {
+    path: '/VideoIntroduction',
+    name: 'VideoIntroduction',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroduction.vue'),
+    props: true
+  },
+  {
     path: '/personalCenter/inPersonalCenter',
     name: 'inPersonalCenter',
     component: () => import('../views/personalCenter/inPersonalCenter.vue'),
