@@ -8,7 +8,7 @@ const routes = [
     name: 'index',
     component: index,
     props: true,
-  }, 
+  },
   //  {
   //   path: '/background',
   //   name: 'background',
@@ -56,7 +56,7 @@ const routes = [
     name: 'register',
     component: () => import(/* webpackChunkName: "register" */ '../views/register.vue'),
     props: true
-  },  {
+  }, {
     path: '/Vue',
     name: 'Vue',
     component: () => import(/* webpackChunkName: "Vue" */ '../App.vue'),
@@ -114,6 +114,39 @@ const routes = [
     name: 'videos-show-leture',
     component: () => import(/* webpackChunkName: "videos-show-leture.vue" */ '../views/videos-show-leture.vue'),
     props: true
+    path: '/resources-show',
+    name: 'resources-show',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/resources-show.vue'),
+    props: true
+  },
+  {
+    path: '/personalCenter/inPersonalCenter',
+    name: 'inPersonalCenter',
+    component: () => import('../views/personalCenter/inPersonalCenter.vue'),
+    redirect: '/personalCenter/home',
+    props: true,
+    children: [
+      {
+        path: '/personalCenter/home',
+        component: () => import('../views/personalCenter/home.vue'),
+        props: true
+      },
+      {
+        path: '/personalCenter/data-update',
+        component: () => import('../views/personalCenter/data-update.vue'),
+        props: true
+      },
+      {
+        path: '/personalCenter/message',
+        component: () => import('../views/personalCenter/message.vue'),
+        props: true
+      },
+      {
+        path: '/personalCenter/resource',
+        component: () => import('../views/personalCenter/resource.vue'),
+        props: true
+      },
+    ]
   }
 ]
 

@@ -1,10 +1,13 @@
 import { Store } from "vuex";
 import docStorage from "./docStorage";
+import personalCenter from "./personalCenter";
+import messageStorages from "./messageStorages";
 
-
-const store=new Store({
+const store = new Store({
     modules:{
-        docStorage
+        docStorage,
+        personalCenter,
+        messageStorages
     }
 })
 

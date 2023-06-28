@@ -26,7 +26,10 @@
     <div class="dropdown" v-if="showDropdown">
       <!-- 下拉框内容 -->
       <ul>
-        <li><a @click.prevent="Personal">个人信息</a></li>
+        <router-link to="/personalCenter/inPersonalCenter">
+          <li>个人信息</li>
+          <!-- <li><a @click.prevent="Personal">个人信息</a></li> -->
+        </router-link>
         <li><a @click.prevent="exitbut">退出登录</a></li>
       </ul>
     </div>
