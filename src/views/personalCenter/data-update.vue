@@ -117,6 +117,10 @@ export default {
                 .then((ret) => {
                     console.log(ret.data)
                 })
+                this.$message({
+                    message: "修改成功",
+                    type: 'success'
+                })
         },
         updateImg(file) {
             this.$store
