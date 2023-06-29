@@ -67,6 +67,10 @@ export default {
             selectedOptions: [] // 绑定选中的复选框值
         }
     },
+    mounted(){
+      this.$emit('returntitle');
+
+  },
     methods: {   //函数或方法
         registerbut() {   //当用户点击后，用户密码等传递给后端
             if (!this.selectedOptions.includes('optionValue')) {
