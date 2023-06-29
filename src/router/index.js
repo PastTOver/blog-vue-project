@@ -157,6 +157,12 @@ const routes = [
     props: true,
   },
   {
+    path: '/TransferHTML',
+    name: 'TransferHTML',
+    component: () => import(/* webpackChunkName: "TransferHTML.vue" */ '../views/TransferHTML.vue'),
+    props: true,
+  },
+  {
     path: '/personalCenter/inPersonalCenter',
     name: 'inPersonalCenter',
     component: () => import('../views/personalCenter/inPersonalCenter.vue'),
