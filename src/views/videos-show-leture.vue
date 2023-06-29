@@ -39,7 +39,7 @@
         <div class="col-lg-4 mt-lg-0 mt-4">
           <div>
             <div class="pb-2 small d-flex justify-content-between">
-              <span>共 1 个章节 • {{ this.videosum }} 个讲座 • 总时长 {{ this.videosumtime }}</span>
+              <span>共 1 个章节 • {{ this.videosum }} 个讲座</span>
               <a href="javascript:void(0)" class="toggle-syllabus" @click="toggleSyllabus"></a>
             </div>
             <div class="collections-syllabus">

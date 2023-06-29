@@ -15,7 +15,7 @@
           <div class="collections-syllabus-box">
             <p class="font-size-12 text-muted mb-1">内容</p>
             <div class="py-2 small d-flex justify-content-between">
-              <span>共 1 个章节 • {{ this.videosum }} 节课 • 总时长 {{ this.videosumtime }}</span>
+              <span>共 1 个章节 • {{ this.videosum }} 节课 </span>
               <!-- <a href="javascript:void(0)" class="toggle-syllabus"></a> -->
               <span>
                 <el-button type="primary" @click.prevent="pay">支付</el-button>
@@ -28,7 +28,6 @@
                   <div class="title float-left">视频列表</div>
                   <div class="float-right">
                     <span class="total-lectures">{{ this.videodetails.length }}节课</span>
-                    <span class="total-time">{{ this.videosumtime }}</span>
                   </div>
                 </div>
               </div>
