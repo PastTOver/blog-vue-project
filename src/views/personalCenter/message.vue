@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="message-right">
-            <div class="message-object">
+            <div class="message-object"> 
                 {{ this.contact.nickName }}
             </div>
             <div class="txt-all">
