@@ -9,7 +9,7 @@
           <p class="mb-2rem">
             {{ this.serlist.videoSummary }} </p>
           <p class="font-size-12 text-muted mb-1">作者</p>
-          <p class="mb-2rem"> {{ this.serlist.publisher }}</p>
+          <p class="mb-2rem"> {{ this.authorName }}</p>
           <p class="font-size-12 text-muted mb-1">发布时间</p>
           <p class="mb-2rem"> {{ this.serlist.publishTime }}</p>
           <div class="collections-syllabus-box">
@@ -91,7 +91,8 @@ export default {
       videosum: null,    //视频总数量
       videosumtime: null,  //视频总时长
       videoId: null,  //视频ID
-      uid: null
+      uid: null,   //用户id
+      authorName: null   //作者名称
     };
   },
   mounted() {
@@ -100,6 +101,7 @@ export default {
     const videoId = this.$route.query.id;
     this.serlist = JSON.parse(this.$route.query.serlist);
     this.videoId = videoId
+    this.publisher(this.serlist.publisher)
     // 设置默认的请求头,请求视频播放信息
     if (getToken() === null) {
       axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
@@ -221,7 +223,7 @@ export default {
       }
       //点击后分别传递：播放的视频名称，视频名称、简介、作者、发布时间
       // console.log(videoName, Namelist, Summarylist, publisherlist, publishTimelist)
-      this.$router.push({ path: '/videos-show-leture', query: { videoId: this.videoId, videoName: videoName, Namelist: Namelist, Summarylist: Summarylist, publisherlist: publisherlist, publishTimelist: publishTimelist } }); // 替换成你要跳转的路由路径和参数
+      this.$router.push({ path: '/videos-show-leture', query: { videoId: this.videoId, videoName: videoName, Namelist: Namelist, Summarylist: Summarylist, publisherlist: publisherlist, publishTimelist: publishTimelist, videoPath: videoPath } }); // 替换成你要跳转的路由路径和参数
     },
     pay() {
       //支付模块
@@ -294,6 +296,23 @@ export default {
             // 请求失败的处理逻辑
             console.error(error);
           });
+    },
+    publisher(id) {
+      //请求作者名称
+      // console.log(id)
+      axios.get(this.$globalInternet + '/user/getUser', {
+        params: {
+          id: id
+        }
+      })
+        .then(response => {
+          // 获取到数据后进行处理，比如赋值给对应的属性
+          console.log(response.data)
+          this.authorName = response.data.data
+        })
+        .catch(error => {
+          console.error('Error fetching user data:', error);
+        });
     }
   }
 }

@@ -3,6 +3,17 @@
         <input type="file" ref="fileInput" @change="handleFileChange" accept="video/*" />
         <button @click="uploadVideo">上传视频</button>
     </div>
+    <div>
+        <input type="text" v-model="videoLink" placeholder="输入视频链接" />
+        <button @click="playVideo">播放</button>
+
+        <div class="video-container">
+            <video ref="videoPlayer" controls>
+                <source :src="videoLink" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
 </template>
   
 <script>
@@ -13,6 +24,7 @@ export default {
     data() {
         return {
             videoFile: null,
+            videoLink: 'https://edu-resources-save.oss-cn-beijing.aliyuncs.com/docAvatar/5eac40e4-fd90-4698-9bf4-b0dd0be12d02.mp4' // 存放视频链接的变量
         };
     },
     methods: {

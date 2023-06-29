@@ -63,7 +63,7 @@ export default {
     getProject() {
       axios
         .get(
-          this.$globalInternet + "/project/allData" + this.page + "/" + this.limit,
+          this.$globalInternet + "/project/allData/" + this.page + "/" + this.limit,
           {
             params: {
               // nickname: this.nickname,

@@ -53,7 +53,7 @@ export default {
     data() {
         return {
             form: {
-                videoName: "test"
+
             },
             uid: null,
             videoImageTF: false,    //用于图片放大和缩小

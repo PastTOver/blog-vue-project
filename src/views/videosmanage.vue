@@ -43,7 +43,7 @@
                                 </a>
                             </div>
                             <div class="card-footer border-top-0 bg-white d-flex justify-content-between">
-                                <div>
+                                <div v-if="flase">
                                     <a href="#" @click.prevent="JumpVideo(userlist, userlist.id)">{{ userlist.publisher
                                     }}</a> <!--这边是作者-->
                                 </div>

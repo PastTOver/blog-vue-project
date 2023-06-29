@@ -12,14 +12,22 @@
       <div class="row">
         <div class="col-lg-8">
           <div class="video-content">
-            <video id="video-player" class="video-js vjs-big-play-centered" controls preload="auto" width="750"
+            <div>
+              <div class="video-container" style="width: 750px; height: 421px;">
+                <video ref="videoPlayer" controls>
+                  <source :src="Videolink" type="video/mp4" />
+                </video>
+              </div>
+
+            </div>
+            <!-- <video id="video-player" class="video-js vjs-big-play-centered" controls preload="auto" width="750"
               height="421" data-setup="{}">
               <source :src="Videolink" type="video/mp4" />
               <p class="vjs-no-js">
                 To view this video please enable JavaScript, and consider upgrading to a web browser that
                 <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
               </p>
-            </video>
+            </video> -->
           </div>
 
           <p class="font-size-12 mt-3">视频简介：</p>
@@ -88,7 +96,7 @@ export default {
       videosumtime: null, //存放视频总时长
       videodetails: {},   //存放播放视频的信息
       videosum: null,    //视频总数量
-      Videolink: null,   //存放视频链接
+      Videolink: '',   //存放视频链接
       videored: ''   //定义点击视频的名称
     };
   },
@@ -238,6 +246,8 @@ export default {
       this.Videolink = path
       console.log(path, 'test')
       this.videored = red
+      this.$refs.videoPlayer.load();
+
     }
   },
   mounted() {
@@ -248,13 +258,13 @@ export default {
     // });
 
     // Resize video player on window resize
-    window.addEventListener('resize', () => {
-      const aspectRatio = 9 / 16;
-      const videoPlayer = document.getElementById('video-player');
-      const width = videoPlayer.parentElement.offsetWidth;
-      videoPlayer.style.width = `${width}px`;
-      videoPlayer.style.height = `${width * aspectRatio}px`;
-    });
+    // window.addEventListener('resize', () => {
+    //   const aspectRatio = 9 / 16;
+    //   const videoPlayer = document.getElementById('video-player');
+    //   const width = videoPlayer.parentElement.offsetWidth;
+    //   videoPlayer.style.width = `${width}px`;
+    //   videoPlayer.style.height = `${width * aspectRatio}px`;
+    // });
 
     const videoId = this.$route.query.videoId;   //接收跳转值，并且发送请求
     const videoName = this.$route.query.videoName;
@@ -262,13 +272,10 @@ export default {
     this.Summarylist = this.$route.query.Summarylist
     this.publisherlist = this.$route.query.publisherlist
     this.publishTimelist = this.$route.query.publishTimelist
-
-
+    this.Videolink = this.$route.query.videoPath
     // console.log(videoName)
     this.getvide(videoId)
     this.videored = videoName  //跳转后自动变色
-
-
   },
 };
 </script>

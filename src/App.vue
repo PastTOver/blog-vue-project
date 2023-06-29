@@ -15,7 +15,7 @@
           <li>文档</li>
         </router-link>
         <router-link to="/posts">
-          <li>博客</li>
+          <!-- <li>博客</li> -->
         </router-link>
         <router-link to="/login">
           <li class="login-btn" v-show="loginShow" @click="labelshowTF">登录</li>
