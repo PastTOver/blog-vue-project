@@ -1,11 +1,29 @@
 <template>
+  <vue-particles class="particles-js"
+        color="#fff"
+        :particleOpacity="0.7"
+        :particlesNumber="60"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#fff"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="2"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+    </vue-particles>
   <section class="w3l-form-36">
     <div class="form-36-mian section-gap">
       <div class="wrapper">
         <div class="form-inner-cont">
           <span
             class="loginow">立即登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-          <a href="#reload" @click.prevent="returnhtml()"><span class="exitnow">返回</span></a>
+          <a href="#reload" @click.prevent="returnhtml()"><span class="exitnow">返回首页</span></a>
           <form action="#" method="post" class="signin-form">
             <div class="form-input">
               <span class="fa fa-envelope-o" aria-hidden="true"></span>
@@ -227,10 +245,18 @@ export default {
 <style>
 @import '../assets/css/font-awesome.css';
 
+
+
 :root {
   --theme-color: #1F2323;
   --title-color: #051b35;
   --text-color: #333333;
+}
+
+.particles-js {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
 }
 
 html {
@@ -250,10 +276,8 @@ html {
 
 .wrapper {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-left: 500px;
+  position: absolute;
 }
 
 @media (min-width: 576px) {
@@ -276,7 +300,7 @@ html {
 
 @media (min-width: 1200px) {
   .wrapper {
-    max-width: 1140px;
+    max-width: 370px;
   }
 }
 
@@ -458,7 +482,7 @@ p.remember {
   text-align: center;
   display: inline-block;
   width: 14%;
-  position: absolute;
+  position: relative;
   top: -20px;
   left: 43%;
 }
@@ -632,7 +656,7 @@ p.signup a:hover {
 }
 
 .exitnow {
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .modal {

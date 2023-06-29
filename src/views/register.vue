@@ -1,4 +1,22 @@
 <template>
+      <vue-particles class="particles-js"
+        color="#fff"
+        :particleOpacity="0.7"
+        :particlesNumber="60"
+        shapeType="circle"
+        :particleSize="4"
+        linesColor="#fff"
+        :linesWidth="1"
+        :lineLinked="true"
+        :lineOpacity="0.4"
+        :linesDistance="150"
+        :moveSpeed="2"
+        :hoverEffect="true"
+        hoverMode="grab"
+        :clickEffect="true"
+        clickMode="push"
+      >
+    </vue-particles>
     <section class="w3l-form-36">
         <div class="form-36-mian section-gap">
             <div class="wrapper">
@@ -131,6 +149,12 @@ export default {
     --text-color: #333333;
 }
 
+.particles-js {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -147,11 +171,9 @@ html {
 }
 
 .wrapper {
-    width: 100%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
+  width: 100%;
+  margin-left: 500px;
+  position: absolute;
 }
 
 @media (min-width: 576px) {
@@ -174,7 +196,7 @@ html {
 
 @media (min-width: 1200px) {
     .wrapper {
-        max-width: 1140px;
+        max-width: 370px;
     }
 }
 
