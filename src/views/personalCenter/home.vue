@@ -22,12 +22,12 @@
                 </div>
             </div>
         </div>
-        <div class="home-separate">
+        <!-- <div class="home-separate">
             消息记录信息
         </div>
         <div class="home-separate">
             资源记录信息
-        </div>
+        </div> -->
     </div>
 </template>
   

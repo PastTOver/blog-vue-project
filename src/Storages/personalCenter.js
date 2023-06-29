@@ -1,5 +1,6 @@
 import { getToken, clearToken } from "@/storage";
 import axios from "axios";
+import qs from "qs"
 
 const personalCenter = {
     state: {
@@ -20,6 +21,21 @@ const personalCenter = {
             return axios.get(state.userDataUrl + "/get", {
                 headers: {
                     token: state.token(),
+                },
+            })
+        },
+        getUser({ commit, state }, params) {
+            console.log("============================")
+            console.log(params)
+            return axios.get(state.userDataUrl + "/getUsers", {
+                headers: {
+                    token: state.token(),
+                },
+                params: {
+                    ids: params
+                },
+                paramsSerializer: function (params) {
+                    return qs.stringify(params, { arrayFormat: "repeat" });
                 },
             })
         },

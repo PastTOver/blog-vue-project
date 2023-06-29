@@ -50,6 +50,30 @@
               </div>
             </div>
           </div>
+          <!-- 视频评论 -->
+          <div class="video-comment">
+            <div class="box-text">
+              <el-input class="el-input" type="textarea" resize="none" :rows="3" placeholder="请输入内容" v-model="comment1">
+              </el-input>
+            </div>
+            <div class="box-send">
+              <el-button class="send-button" type="primary" @click="sendComment">发送</el-button>
+            </div>
+            <el-scrollbar class="box-comment">
+              <div style="padding: 10px;">
+                <div class="comment-user" v-for="value in coments">
+                  <img class="comment-img" :src="value.avatar">
+                  <span> {{ value.nickName }} </span>
+                  <div class="comment-user-text">
+                    <span class="comment-user-text-span">{{ value.commentContent }}</span>
+                  </div>
+                  <div class="comment-user-time">
+                    <span class="comment-user-time-span">{{ value.commentTime }}</span>
+                  </div>
+                </div>
+              </div>
+            </el-scrollbar>
+          </div>
         </div>
         <div class="col-lg-4 mt-lg-0 mt-3 animated fadeInRight">
           <div class="video-collections-sidebar">
@@ -63,6 +87,7 @@
           </div>
         </div>
       </div>
+
     </div>
     <div v-html="skipHtml"></div>
     <footer class="blog-footer mt-auto">
@@ -91,6 +116,13 @@ export default {
       videosum: null,    //视频总数量
       videosumtime: null,  //视频总时长
       videoId: null,  //视频ID
+      uid: null,
+      comment1: "", //视频评论文本
+      coments: {}, //评论集合
+      video: {},
+      ids: [],
+      isReloadData: true,
+      time: null,
       uid: null,   //用户id
       authorName: null   //作者名称
     };
@@ -191,6 +223,10 @@ export default {
             console.error(error);
           });
     }
+    this.time = setInterval(() => {
+      this.getVideoComment()
+    }, 1500)
+    this.getVideoComment()
   },
   methods: {
     toggleSyllabus() {
@@ -297,26 +333,87 @@ export default {
             console.error(error);
           });
     },
-    publisher(id) {
-      //请求作者名称
-      // console.log(id)
-      axios.get(this.$globalInternet + '/user/getUser', {
-        params: {
-          id: id
-        },
-        headers: {
-          token: ''
-        }
-      })
-        .then(response => {
-          // 获取到数据后进行处理，比如赋值给对应的属性
-          console.log(response.data)
-          this.authorName = response.data.data
+    getVideoComment() {
+      this.video.id = this.videoId
+      console.log(this.video)
+      this.$store
+        .dispatch("getVideoComment", this.video)
+        .then((ret) => {
+          console.log("---------------------")
+          console.log(ret.data)
+          // this.coments = ret.data.data
+          this.data = ret.data.data
+          this.setVideoComment()
         })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-        });
-    }
+    },
+    setVideoComment() {
+      for (let i in this.data) {
+        this.ids.push(this.data[i].userId)
+      }
+      this.$store
+        .dispatch("getUser", this.ids)
+        .then((ret) => {
+          console.log(ret.data)
+          for (let i in this.data) {
+            this.coments[i] = this.data[i]
+            this.coments[i].nickName = ret.data.data[i].nickName
+            this.coments[i].avatar = ret.data.data[i].avatar
+          }
+          console.log(this.coments)
+        })
+    },
+    sendComment() {
+      this.video.commentContent = this.comment1
+      this.$store
+        .dispatch("sendComment", this.video)
+        .then((ret) => {
+          console.log(ret.data)
+          this.comment1 = ""
+        })
+    },
+    // reload() {
+    //   this.isReloadData = false;
+    //   this.$nextTick(() => {
+    //     this.isReloadData = true;
+    //   })
+    // },
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log("准备进入路由之前执行")
+    next(
+      console.log("进入到路由之后执行")
+    );
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("准备离开路由执行")
+    console.log(this.time)
+    clearInterval(this.time);
+    next(
+      console.log("离开路由之后执行")
+    );
+  },
+  beforeDestroy() {
+    clearInterval(this.time);
+  },
+  publisher(id) {
+    //请求作者名称
+    // console.log(id)
+    axios.get(this.$globalInternet + '/user/getUser', {
+      params: {
+        id: id
+      },
+      headers: {
+        token: ''
+      }
+    })
+      .then(response => {
+        // 获取到数据后进行处理，比如赋值给对应的属性
+        console.log(response.data)
+        this.authorName = response.data.data
+      })
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
   }
 }
 </script>
@@ -324,4 +421,68 @@ export default {
 <style scoped>
 @import '../assets/css/app.css';
 @import '../assets/vendor/bootstrap-icons/font/bootstrap-icons.css';
+
+.video-comment {
+  margin-top: 20px;
+  height: 500px;
+  /* width: 730px; */
+}
+
+.box-text {
+  height: 100px;
+  border: 2px solid #ced3db;
+}
+
+.box-send {
+  padding: 5px;
+  /* height: 30%; */
+  width: 100%;
+  text-align: right;
+}
+
+.box-comment {
+  height: 390px;
+  /* width: 730px; */
+  /* background-color: beige; */
+}
+
+.comment-user {
+  width: 100%;
+  border: 2px solid #ced3db;
+  padding: 5px;
+}
+
+.comment-user-text {
+  height: 50px;
+}
+
+.comment-user-text-span {
+  line-height: 50px;
+}
+
+.comment-user-time {
+  height: 30px;
+  text-align: right;
+}
+
+.comment-user-time-span {
+  font-size: 12px;
+}
+
+.el-input {
+  height: 100%;
+  resize: none;
+}
+
+.send-button {
+  width: 60px;
+  height: 30px;
+}
+
+.comment-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
 </style>
