@@ -26,10 +26,10 @@
     <div class="dropdown" v-if="showDropdown">
       <!-- 下拉框内容 -->
       <ul>
-        <router-link to="/personalCenter/inPersonalCenter">
+        <a @click="toggleDropdown"><router-link to="/personalCenter/inPersonalCenter">
           <li>个人信息</li>
           <!-- <li><a @click.prevent="Personal">个人信息</a></li> -->
-        </router-link>
+        </router-link></a>
         <li><a @click.prevent="exitbut">退出登录</a></li>
       </ul>
     </div>
@@ -74,6 +74,7 @@ export default {
 
     }, exitbut() {   //退出登录按钮
       console.log(getToken())
+      //跳转回首页
       this.$axios.get(this.$globalInternet + "/user/logout", {
         headers: {
           token: getToken()
@@ -81,6 +82,9 @@ export default {
       })
       clearToken();
       location.reload();
+      this.$router.push('/').then(() => { //网页跳转，并进行刷新
+        location.reload()
+      })
     }, Personal() {
       this.showDropdown = !this.showDropdown; // 点击头像时切换显示和隐藏
       console.log("跳转到个人信息页面")
