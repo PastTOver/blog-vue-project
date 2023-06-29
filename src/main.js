@@ -8,9 +8,6 @@ import 'element-plus/theme-chalk/index.css'
 import store from './Storages'
 import VueParticles from 'vue-particles'  
 
-
-
-
 const app=createApp(App)
 app.config.globalProperties.$globalInternet = "http://127.0.0.1:9001";  //设置全局变量
 app.config.globalProperties.$globaltoken = "";

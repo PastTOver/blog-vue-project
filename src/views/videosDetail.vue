@@ -133,7 +133,7 @@ export default {
     const videoId = this.$route.query.id;
     this.serlist = JSON.parse(this.$route.query.serlist);
     this.videoId = videoId
-    this.publisher(this.serlist.publisher)
+    // this.publisher(this.serlist.publisher)
     // 设置默认的请求头,请求视频播放信息
     if (getToken() === null) {
       axios.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded';
