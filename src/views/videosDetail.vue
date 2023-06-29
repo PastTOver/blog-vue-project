@@ -116,18 +116,15 @@ export default {
       videosum: null,    //视频总数量
       videosumtime: null,  //视频总时长
       videoId: null,  //视频ID
-<<<<<<< HEAD
       uid: null,
       comment1: "", //视频评论文本
       coments: {}, //评论集合
       video: {},
       ids: [],
       isReloadData: true,
-      time: null
-=======
+      time: null,
       uid: null,   //用户id
       authorName: null   //作者名称
->>>>>>> 88ca315b4cda406e6b5bc1e7deebd1bac2aff9f3
     };
   },
   mounted() {
@@ -336,7 +333,6 @@ export default {
             console.error(error);
           });
     },
-<<<<<<< HEAD
     getVideoComment() {
       this.video.id = this.videoId
       console.log(this.video)
@@ -399,29 +395,26 @@ export default {
   beforeDestroy() {
     clearInterval(this.time);
   },
-=======
-    publisher(id) {
-      //请求作者名称
-      // console.log(id)
-      axios.get(this.$globalInternet + '/user/getUser', {
-        params: {
-          id: id
-        },
-        headers: {
-          token: ''
-        }
+  publisher(id) {
+    //请求作者名称
+    // console.log(id)
+    axios.get(this.$globalInternet + '/user/getUser', {
+      params: {
+        id: id
+      },
+      headers: {
+        token: ''
+      }
+    })
+      .then(response => {
+        // 获取到数据后进行处理，比如赋值给对应的属性
+        console.log(response.data)
+        this.authorName = response.data.data
       })
-        .then(response => {
-          // 获取到数据后进行处理，比如赋值给对应的属性
-          console.log(response.data)
-          this.authorName = response.data.data
-        })
-        .catch(error => {
-          console.error('Error fetching user data:', error);
-        });
-    }
+      .catch(error => {
+        console.error('Error fetching user data:', error);
+      });
   }
->>>>>>> 88ca315b4cda406e6b5bc1e7deebd1bac2aff9f3
 }
 </script>
 
