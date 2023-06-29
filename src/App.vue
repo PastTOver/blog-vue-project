@@ -15,7 +15,7 @@
           <li>文档</li>
         </router-link>
         <router-link to="/posts">
-          <li>博客</li>
+          <!-- <li>博客</li> -->
         </router-link>
         <router-link to="/login">
           <li class="login-btn" v-show="loginShow" @click="labelshowTF">登录</li>
@@ -206,12 +206,13 @@ export default {
 
 .dropdown {
   position: absolute;
-  top: 79px;
-  left: -5%;
+  top: 80px;
+  left: -3%;
   width: 100px;
   background-color: #f1f1f1;
   border: 1px solid #ccc;
   padding: 10px;
+  z-index: 999;
 }
 
 .dropdown ul {

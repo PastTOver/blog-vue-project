@@ -122,10 +122,45 @@ const routes = [
     props: true
   },
   {
-    path: '/VideoIntroduction',
+    path: '/VideoIntroduction/:introduction',
     name: 'VideoIntroduction',
     component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroduction.vue'),
-    props: true
+    props: true,
+  },
+  {
+    path: '/VideoIntroAdd',
+    name: 'VideoIntroAdd',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroAdd.vue'),
+    props: true,
+  },
+  {
+    path: '/VideoSubpage',
+    name: 'VideoSubpage',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoSubpage.vue'),
+    props: true,
+  },
+  {
+    path: '/userpurchase',
+    name: 'userpurchase',
+    component: () => import(/* webpackChunkName: "userpurchase.vue" */ '../views/userpurchase.vue'),
+    props: true,
+  },{
+    path: '/video-playe',
+    name: 'video-playe',
+    component: () => import(/* webpackChunkName: "video-playe.vue" */ '../views/video-playe.vue'),
+    props: true,
+  },
+  {
+    path: '/VideoPagealt/:id',
+    name: 'VideoPagealt',
+    component: () => import(/* webpackChunkName: "VideoPagealt.vue" */ '../views/VideoPagealt.vue'),
+    props: true,
+  },
+  {
+    path: '/TransferHTML',
+    name: 'TransferHTML',
+    component: () => import(/* webpackChunkName: "TransferHTML.vue" */ '../views/TransferHTML.vue'),
+    props: true,
   },
   {
     path: '/personalCenter/inPersonalCenter',

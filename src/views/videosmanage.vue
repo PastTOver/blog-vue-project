@@ -23,7 +23,7 @@
                     <div class="col-lg-4 mb-4" v-for="userlist in   user  " :key="user.id"> <!--从这里开始循环-->
                         <div class="card h-100 video-card">
                             <div style="position: relative;">
-                                <a href="videos-show.html" @click.prevent="JumpVideo(userlist, userlist.id)">
+                                <a href="videos-show.html" @click.prevent="JumpVideo(userlist.videoName, userlist.id)">
                                     <img :src="userlist.videoImage" class="card-img ratio-16x9"> <!-- 这里放封面 -->
                                     <span class="video-player-btn video-player-centered text-center">
                                         <span class="video-player-icon">
@@ -37,14 +37,15 @@
                                 </a>
                             </div>
                             <div class="card-body">
-                                <a href="videos-show.html" @click.prevent="JumpVideo(userlist, userlist.id)">
+                                <a href="videos-show.html" @click.prevent="JumpVideo(userlist.videoName, userlist.id)">
                                     <h5 class="card-title">{{ userlist.videoName }}</h5> <!--这个是视频名称-->
                                     <p class="card-text text-muted" title="">{{ userlist.videoSummary }}</p>
                                 </a>
                             </div>
                             <div class="card-footer border-top-0 bg-white d-flex justify-content-between">
-                                <div>
-                                    <a href="#" @click.prevent="JumpVideo(userlist, userlist.id)">{{ userlist.publisher
+                                <div v-if="flase">
+                                    <a href="#" @click.prevent="JumpVideo(userlist.videoName, userlist.id)">{{
+                                        userlist.publisher
                                     }}</a> <!--这边是作者-->
                                 </div>
                                 <div>
@@ -131,6 +132,16 @@ export default {
                 });
         },
 
+        JumpVideo(videoName, videoid) {   //跳转到视频子管理页面
+            this.$router.push({
+                path: '/VideoSubpage',
+                query: {
+                    videoName: videoName,
+                    videoid: videoid
+                }
+            });
+        },
+
         exit() {
             this.$router.push({ path: '/videos' });
         },
@@ -200,6 +211,20 @@ export default {
 
         Jumpmodify(introduction) {   //跳转修改或者添加视频简介
             console.log(introduction)
+            if (introduction !== undefined) {   //分别采用携带参数和非参数跳转
+                this.$router.push({
+                    name: 'VideoIntroduction',
+                    params: {
+                        introduction: JSON.stringify(introduction)
+                    }
+                });
+            } else {
+                this.$router.push({
+                    name: 'VideoIntroAdd',
+                    params: {
+                    }
+                });
+            }
         }
     }
 }

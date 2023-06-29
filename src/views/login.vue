@@ -1,11 +1,15 @@
 <template>
+  <vue-particles class="particles-js" color="#fff" :particleOpacity="0.7" :particlesNumber="60" shapeType="circle"
+    :particleSize="4" linesColor="#fff" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150"
+    :moveSpeed="2" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
+  </vue-particles>
   <section class="w3l-form-36">
     <div class="form-36-mian section-gap">
       <div class="wrapper">
         <div class="form-inner-cont">
           <span
             class="loginow">立即登录&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</span>
-          <a href="#reload" @click.prevent="returnhtml()"><span class="exitnow">返回</span></a>
+          <a href="#reload" @click.prevent="returnhtml()"><span class="exitnow">返回首页</span></a>
           <form action="#" method="post" class="signin-form">
             <div class="form-input">
               <span class="fa fa-envelope-o" aria-hidden="true"></span>
@@ -46,10 +50,11 @@
             <a target="_blank" href="#" @click.prevent="">用户协议</a>
           </p>
         </div>
-        <div class="modal" v-show="showModal">
+        <div class="modal" v-show="showModal" style="width: 500px; height: 500px;">
           <div class="modal-content">
             <!-- 弹窗内容 -->
-            <img id="qrCodeImgId" :src="qrCodeSrc" v-show="showQrCode" alt="QR Code" />
+            <img id="qrCodeImgId" :src="qrCodeSrc" v-show="showQrCode" alt="QR Code"
+              style="width: 200px; height: 200px; " />
             <p>点击关闭按钮或背景以关闭弹窗</p>
             <button @click="closeModalexit">关闭</button>
           </div>
@@ -101,7 +106,7 @@ export default {
           this.showQrCode = true;
           this.startInterval();
         } else {
-          alert(data.msg);
+          alert('登录失败');
         }
       })
 
@@ -150,7 +155,7 @@ export default {
       });
     },
     startInterval() {
-      this.intervalId = setInterval(this.getOpenId, 5000);
+      this.intervalId = setInterval(this.getOpenId, 10000);
     },
     stopInterval() {
       clearInterval(this.intervalId);
@@ -168,8 +173,9 @@ export default {
 
 
 
-    closeModalexit() {
+    closeModalexit() {   //关闭按钮
       this.showModal = false
+      location.reload();
     },
     itbaizhanContents() {   //当用户点击后，用户密码传递给后端
       if (!this.selectedOptions.includes('optionValue')) {
@@ -227,10 +233,18 @@ export default {
 <style>
 @import '../assets/css/font-awesome.css';
 
+
+
 :root {
   --theme-color: #1F2323;
   --title-color: #051b35;
   --text-color: #333333;
+}
+
+.particles-js {
+  width: 100%;
+  height: calc(100% - 100px);
+  position: absolute;
 }
 
 html {
@@ -250,10 +264,8 @@ html {
 
 .wrapper {
   width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-left: 23%;
+  position: absolute;
 }
 
 @media (min-width: 576px) {
@@ -276,7 +288,7 @@ html {
 
 @media (min-width: 1200px) {
   .wrapper {
-    max-width: 1140px;
+    max-width: 370px;
   }
 }
 
@@ -458,7 +470,7 @@ p.remember {
   text-align: center;
   display: inline-block;
   width: 14%;
-  position: absolute;
+  position: relative;
   top: -20px;
   left: 43%;
 }
@@ -632,7 +644,7 @@ p.signup a:hover {
 }
 
 .exitnow {
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .modal {
@@ -659,5 +671,18 @@ p.signup a:hover {
 
 .modal button {
   margin-top: 10px;
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 添加透明背景 */
 }
 </style>

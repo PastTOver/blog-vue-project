@@ -53,7 +53,14 @@
             </div>
           </div>
           <!-- 证书 -->
-          <div v-if="certData" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+          <div
+            v-if="certData"
+            class="col-3"
+            style="
+              background-color: gold;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            "
+          >
             <h3>已获得证书:</h3>
             <img
               class="img-fluid shadow-sm"
@@ -61,20 +68,34 @@
             />
             <h4>证书名称</h4>
           </div>
-          <div v-if="!certData && certProgress.resourceCount==0" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+          <div
+            v-if="!certData && certProgress.resourceCount == 0"
+            class="col-3"
+            style="
+              background-color: gold;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            "
+          >
             <h5>本模块暂时无任何视频，未颁布证书</h5>
             <img
               class="img-fluid shadow-sm"
               src="http://localhost:9001/static/defaultValues/img.png"
             />
           </div>
-          <div v-if="!certData && certProgress.resourceCount>0" class="col-3" style="background-color:gold;box-shadow:0 0 10px rgba(0,0,0,0.8)" >
+          <div
+            v-if="!certData && certProgress.resourceCount > 0"
+            class="col-3"
+            style="
+              background-color: gold;
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            "
+          >
             <h5>正在学习中~您的完成进度为:</h5>
             <img
               class="img-fluid shadow-sm"
               src="http://localhost:9001/static/defaultValues/img.png"
             />
-            <el-progress style="margin-top:25px" :percentage="50" />
+            <el-progress style="margin-top: 25px" :percentage="50" />
           </div>
         </div>
         <div
@@ -87,6 +108,12 @@
               >共 {{ docDetail.sonContent.length }} 个章节 •
               {{ sourceCount }} 篇文章</span
             >
+
+            <span>
+              <el-button type="primary" @click.prevent="pay" v-if="canPay"
+                >支付</el-button
+              >
+            </span>
             <el-button type="primary" @click="showAll">展开全部章节</el-button>
           </div>
           <div class="collections-syllabus">
@@ -153,12 +180,15 @@
         <div v-else>
           <h1>该主题文档暂时为空</h1>
         </div>
+
+        <div v-html="skipHtml"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import { ElLoading } from "element-plus";
 import { getToken, clearToken } from "@/storage";
 export default {
@@ -173,6 +203,8 @@ export default {
   },
   data() {
     return {
+      skipHtml:'',
+      canPay: false,
       certParams: {
         /**
          * 表示videoType
@@ -194,12 +226,50 @@ export default {
         },
       },
       sourceCount: 0,
-      certData:undefined,
-      certProgress:{
-      }
+      certData: undefined,
+      certProgress: {},
     };
   },
   methods: {
+    pay() {
+      if (!getToken()) {
+        //如果没登陆
+        this.handleNoAuth();
+        return;
+      }
+      console.log('uid:',this.uid)
+      //支付模块
+      axios
+        .post(
+          this.$globalInternet + "/alipay/pay",
+          {
+            type: "document",
+            name: this.docDetail.documentTopics.documentName,
+            uid: this.uid,
+            did: this.docDetail.documentTopics.id,
+            price: this.docDetail.documentTopics.price,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              token: getToken(),
+            },
+          }
+        )
+        .then((response) => {
+          // 请求成功的处理逻辑
+          console.log(response.data);
+          this.skipHtml = response.data;
+          setTimeout(() => {
+            document.forms[0].submit();
+          }, 500);
+          console.log(this.skipHtml, "!!!!!!!!!!!!!!!!!!!!!!");
+        })
+        .catch((error) => {
+          // 请求失败的处理逻辑
+          console.error(error);
+        });
+    },
     loadDocCert() {
       //修改topicId
       this.certParams.topicId = this.$props.id;
@@ -209,27 +279,27 @@ export default {
         this.$store
           .dispatch("User_Cert_GET", {
             topicId: vm.certParams.topicId,
-            resourceType:1
+            resourceType: 1,
           })
           .then((resp) => {
             console.log(resp);
             //this.$store.dispatch("respFilter", { resp });
-            let certData=resp.data.data
-            if(resp.data.code==200){
+            let certData = resp.data.data;
+            if (resp.data.code == 200) {
               //有证书
-              certData=certData
-            }else if(resp.data.code==201){
-              console.log('没证书:');
-              console.log(certData)
+              certData = certData;
+            } else if (resp.data.code == 201) {
+              console.log("没证书:");
+              console.log(certData);
               //没有证书
-              if(certData.resourceCount==0){
+              if (certData.resourceCount == 0) {
                 //视频资源为0 不颁发证书
-                vm.certData=undefined
-                vm.certProgress=certData
-              }else{
+                vm.certData = undefined;
+                vm.certProgress = certData;
+              } else {
                 //显示进度
-                vm.certData=undefined
-                vm.certProgress=certData
+                vm.certData = undefined;
+                vm.certProgress = certData;
               }
             }
           });
@@ -262,6 +332,26 @@ export default {
       console.log(this.$props);
       //如果用户登录了  获取需要权限的接口 如果209 获取免费接口
       if (getToken()) {
+        //获取用户信息
+        axios
+          .get(this.$globalInternet + "/user/get", {
+            headers: {
+              token: getToken(),
+            },
+          })
+          .then((response) => {
+            console.log('userdata:-------')
+            console.log(response)
+            // 请求成功的处理逻辑
+            // console.log(response.data.data.id);
+            this.uid = response.data.data.id;
+            // console.log(this.uid)
+          })
+          .catch((error) => {
+            // 请求失败的处理逻辑
+            console.error(error);
+          });
+
         console.log(getToken());
         vm.$store
           .dispatch("getDocDetail", { id: vm.$props.id })
@@ -317,6 +407,19 @@ export default {
         });
         vm.sourceCount = count;
       }
+
+      let flag = false;
+
+      this.docDetail.sonContent.forEach((item) => {
+        if (item.sonContent)
+          item.sonContent.forEach((sitem) => {
+            if (!sitem.canShow) {
+              flag = true;
+              return;
+            }
+          });
+      });
+      if (flag) this.canPay = true;
       //console.log(vm.docDetail);
     },
     showAll() {
