@@ -50,13 +50,13 @@
             <a target="_blank" href="#" @click.prevent="">用户协议</a>
           </p>
         </div>
-        <div class="modal" v-show="showModal" style="width: 500px; height: 500px;">
+        <div class="modal" v-show="showModal" style="width: 240px; height: 300px;">
           <div class="modal-content">
             <!-- 弹窗内容 -->
             <img id="qrCodeImgId" :src="qrCodeSrc" v-show="showQrCode" alt="QR Code"
               style="width: 200px; height: 200px; " />
-            <p>点击关闭按钮或背景以关闭弹窗</p>
-            <button @click="closeModalexit">关闭</button>
+            <p>扫码以进行微信登录</p>
+            <button @click="closeModalexit">关闭微信登录</button>
           </div>
         </div>
         <!-- //copyright -->
@@ -83,6 +83,10 @@ export default {
       sceneStr: "",
       selectedOptions: [] // 绑定选中的复选框值
     }
+  },
+  mounted(){
+      this.$emit('returntitle');
+
   },
   methods: {   //函数或方法
     returnhtml() {  //调用VUE事件
@@ -649,8 +653,8 @@ p.signup a:hover {
 
 .modal {
   position: fixed;
-  top: 0;
-  left: 0;
+  top: 37%;
+  left: 40%;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
