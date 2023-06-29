@@ -46,10 +46,11 @@
             <a target="_blank" href="#" @click.prevent="">用户协议</a>
           </p>
         </div>
-        <div class="modal" v-show="showModal">
+        <div class="modal" v-show="showModal" style="width: 500px; height: 500px;">
           <div class="modal-content">
             <!-- 弹窗内容 -->
-            <img id="qrCodeImgId" :src="qrCodeSrc" v-show="showQrCode" alt="QR Code" />
+            <img id="qrCodeImgId" :src="qrCodeSrc" v-show="showQrCode" alt="QR Code"
+              style="width: 200px; height: 200px; " />
             <p>点击关闭按钮或背景以关闭弹窗</p>
             <button @click="closeModalexit">关闭</button>
           </div>
@@ -101,7 +102,7 @@ export default {
           this.showQrCode = true;
           this.startInterval();
         } else {
-          alert(data.msg);
+          alert('登录失败');
         }
       })
 
@@ -150,7 +151,7 @@ export default {
       });
     },
     startInterval() {
-      this.intervalId = setInterval(this.getOpenId, 5000);
+      this.intervalId = setInterval(this.getOpenId, 10000);
     },
     stopInterval() {
       clearInterval(this.intervalId);
@@ -168,8 +169,9 @@ export default {
 
 
 
-    closeModalexit() {
+    closeModalexit() {   //关闭按钮
       this.showModal = false
+      location.reload();
     },
     itbaizhanContents() {   //当用户点击后，用户密码传递给后端
       if (!this.selectedOptions.includes('optionValue')) {
@@ -659,5 +661,18 @@ p.signup a:hover {
 
 .modal button {
   margin-top: 10px;
+}
+
+.modal-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* 添加透明背景 */
 }
 </style>

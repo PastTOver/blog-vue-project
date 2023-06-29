@@ -303,6 +303,9 @@ export default {
       axios.get(this.$globalInternet + '/user/getUser', {
         params: {
           id: id
+        },
+        headers: {
+          token: ''
         }
       })
         .then(response => {

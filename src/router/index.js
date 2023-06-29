@@ -134,6 +134,29 @@ const routes = [
     props: true,
   },
   {
+    path: '/VideoSubpage',
+    name: 'VideoSubpage',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoSubpage.vue'),
+    props: true,
+  },
+  {
+    path: '/userpurchase',
+    name: 'userpurchase',
+    component: () => import(/* webpackChunkName: "userpurchase.vue" */ '../views/userpurchase.vue'),
+    props: true,
+  },{
+    path: '/video-playe',
+    name: 'video-playe',
+    component: () => import(/* webpackChunkName: "video-playe.vue" */ '../views/video-playe.vue'),
+    props: true,
+  },
+  {
+    path: '/VideoPagealt/:id',
+    name: 'VideoPagealt',
+    component: () => import(/* webpackChunkName: "VideoPagealt.vue" */ '../views/VideoPagealt.vue'),
+    props: true,
+  },
+  {
     path: '/personalCenter/inPersonalCenter',
     name: 'inPersonalCenter',
     component: () => import('../views/personalCenter/inPersonalCenter.vue'),

@@ -1,45 +1,49 @@
 <template>
-    <div style="display: flex; justify-content: center; align-items: center;">
-        <div style="width: 600px;">
-            <el-form ref="form" :model="form" label-width="80px">
-                <!-- <el-form-item label="发布人">
+    <div class="box">
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <div style="width: 600px;">
+                <el-form ref="form" :model="form" label-width="80px">
+                    <!-- <el-form-item label="发布人">
                     <el-input v-model="form.name"></el-input>
                 </el-form-item> -->
-                <el-form-item label="视频ID" v-if="false">
-                    <el-input v-model="form.id"></el-input>
-                </el-form-item>
-                <el-form-item label="视频封面" prop="videoImage">
-                    <el-image :src="form.videoImage" style="width: 10%; height: auto;" fit="contain"
-                        @click.prevent="videoImagebut"></el-image>
-                    <!-- <button v-if="form.videoImage" @click.prevent="videoImagebut"> 当有图片的时候才显示按钮 -->
-                    <!-- <i class="el-icon-search"></i>放大镜图标 -->
-                    <!-- </button> -->
-                    <img :src="form.videoImage" style="width: 100%; height: auto;" v-if="videoImageTF">
-                </el-form-item>
-                <el-form-item label="视频名称">
-                    <el-input v-model="form.videoName"></el-input>
-                </el-form-item>
-                <el-form-item label="视频简介">
-                    <el-input v-model="form.videoSummary"></el-input>
-                </el-form-item>
-                <el-form-item label="价格">
-                    <el-input v-model="form.price"></el-input>
-                </el-form-item>
-                <el-form-item label="是否免费">
-                    <el-input v-model="form.resourceIsFree" style="width: 50px;"></el-input>
-                    <span>&nbsp&nbsp&nbsp&nbsp&nbsp注：0为免费1为付费</span>
-                </el-form-item>
-                <div slot="footer">
-                    <el-button :loading="loading" type="primary" @click="assignRole(form)">保存</el-button>
-                    <el-button @click="resetRoleData">取消</el-button>
-                </div>
-                <div>
-                    <span>&nbsp;&nbsp;&nbsp;&nbsp;修改图片 </span>
+                    <el-form-item label="视频ID" v-if="false">
+                        <el-input v-model="form.id"></el-input>
+                    </el-form-item>
+                    <el-form-item label="视频封面" prop="videoImage">
+                        <el-image :src="form.videoImage" style="width: 10%; height: auto;" fit="contain"
+                            @click.prevent="videoImagebut"></el-image>
+                        <!-- <button v-if="form.videoImage" @click.prevent="videoImagebut"> 当有图片的时候才显示按钮 -->
+                        <!-- <i class="el-icon-search"></i>放大镜图标 -->
+                        <!-- </button> -->
+                        <img :src="form.videoImage" style="width: 100%; height: auto;" v-if="videoImageTF">
+                    </el-form-item>
+                    <el-form-item label="视频名称">
+                        <el-input v-model="form.videoName"></el-input>
+                    </el-form-item>
+                    <el-form-item label="视频简介">
+                        <el-input v-model="form.videoSummary"></el-input>
+                    </el-form-item>
+                    <el-form-item label="价格">
+                        <el-input v-model="form.price"></el-input>
+                    </el-form-item>
+                    <el-form-item label="是否免费">
+                        <el-input v-model="form.resourceIsFree" style="width: 50px;"></el-input>
+                        <span>&nbsp&nbsp&nbsp&nbsp&nbsp注：0为免费1为付费</span>
+                    </el-form-item>
+                    <div slot="footer" class="button-container">
+                        <el-button :loading="loading" type="primary" @click="assignRole(form)">保存</el-button>
+                        <el-button @click="resetRoleData">取消</el-button>
+                    </div>
+
                     <p></p>
-                    <input type="file" @change="handleFileUpload" accept="image/*" />
-                    <button @click.prevent="uploadImage">上传图片</button>
-                </div>
-            </el-form>
+                    <div>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;修改图片 </span>
+                        <p></p>
+                        <input type="file" @change="handleFileUpload" accept="image/*" />
+                        <button @click.prevent="uploadImage">上传图片</button>
+                    </div>
+                </el-form>
+            </div>
         </div>
     </div>
 </template>
@@ -163,5 +167,20 @@ export default {
         }
     }
 }
-
 </script>
+
+<style>
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    /* 按钮之间的间距 */
+    /* margin-top: 5px; */
+    /* 上方间距 */
+}
+
+.button-container>.el-button {
+    width: 120px;
+    /* 按钮的宽度 */
+}
+</style>

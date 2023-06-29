@@ -29,7 +29,7 @@
                     <el-input v-model="form.resourceIsFree" style="width: 50px;"></el-input>
                     <span>&nbsp&nbsp&nbsp&nbsp&nbsp注：0为免费1为付费</span>
                 </el-form-item>
-                <div slot="footer">
+                <div slot="footer" class="button-container">
                     <el-button :loading="loading" type="primary" @click="assignRole(form)">保存</el-button>
                     <el-button @click="resetRoleData">取消</el-button>
                 </div>
@@ -165,5 +165,20 @@ export default {
         }
     }
 }
-
 </script>
+
+<style>
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 100px;
+    /* 按钮之间的间距 */
+    /* margin-top: 5px; */
+    /* 上方间距 */
+}
+
+.button-container>.el-button {
+    width: 120px;
+    /* 按钮的宽度 */
+}
+</style>

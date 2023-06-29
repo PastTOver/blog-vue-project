@@ -19,6 +19,9 @@
                         <router-link tag="div" to='/myDocs'>
                             <el-button type="primary" class="lay-button">我的文档</el-button>
                         </router-link>
+                        <router-link tag="div" to='/userpurchase'>
+                            <el-button type="primary" class="lay-button">购买记录</el-button>
+                        </router-link>
                     </ul>
                 </el-aside>
                 <el-main>
