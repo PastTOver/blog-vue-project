@@ -1,5 +1,8 @@
 <template>
-   资源界面
+    <router-link to="/personalCenter/inPersonalCenter">
+          <li>个人信息</li>
+          <!-- <li><a @click.prevent="Personal">个人信息</a></li> -->
+    </router-link>
 </template>
   
 <script setup>
