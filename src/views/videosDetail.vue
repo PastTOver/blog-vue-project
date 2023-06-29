@@ -225,6 +225,10 @@ export default {
     },
     pay() {
       //支付模块
+      if (getToken() === null) {
+        ElMessage.warning('请登录账号');
+        return
+      }
       axios.post(this.$globalInternet + '/alipay/pay', {
         type: "video",
         name: this.serlist.videoName,

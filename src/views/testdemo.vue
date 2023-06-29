@@ -1,32 +1,47 @@
-<template></template>
-
+<template>
+    <div>
+        <input type="file" ref="fileInput" @change="handleFileChange" accept="video/*" />
+        <button @click="uploadVideo">上传视频</button>
+    </div>
+</template>
+  
 <script>
 import axios from 'axios';
-import { setUrl, getUrl, clearUrl } from '../storage.js'  //临时存放Token
+import { setToken, getToken, clearToken, setImg } from '../storage'  //临时存放Token
 
 export default {
-    mounted() {
-        // 在 mounted 钩子函数中发送 GET 请求
-        this.getData();
+    data() {
+        return {
+            videoFile: null,
+        };
     },
     methods: {
-        getData() {
-            // 发送 GET 请求
-            axios.get(this.$globalInternet + '/alipay/success')
+        handleFileChange(event) {
+            this.videoFile = event.target.files[0];
+        },
+        uploadVideo() {
+            // 创建FormData对象
+            const formData = new FormData();
+            formData.append('file', this.videoFile);
+
+            // 设置请求头部
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    token: getToken(), // 替换为实际的token值
+                },
+            };
+
+            // 发送视频上传请求
+            axios.put(this.$globalInternet + '/course/document_course/avatar', formData, config)
                 .then(response => {
-                    // 请求成功的处理逻辑
-                    console.log(response.data);
-                    const specificURL = getUrl(); // 替换为你要跳转的特定URL地址
-                    console.log(specificURL)
-                    window.location.replace(specificURL);
-                    // 使用 $router.push 方法进行路由跳转
-                    // this.$router.push(specificURL);
+                    console.log(response.data); // 上传成功的处理逻辑
                 })
                 .catch(error => {
-                    // 请求失败的处理逻辑
-                    console.error(error);
+                    console.error(error); // 错误处理逻辑
                 });
-        }
-    }
+        },
+    },
 };
 </script>
+  

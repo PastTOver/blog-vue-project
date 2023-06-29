@@ -61,7 +61,7 @@ export default {
         }
     },
     mounted() {
-        this.Method();
+        // this.Method();
         this.userid();
     },
     methods: {
@@ -131,6 +131,7 @@ export default {
 
         assignRole(form) {
             //保存按钮
+            console.log(this.uid)
             console.log(form)
             const formData = qs.stringify({
                 id: form.id,
@@ -140,9 +141,10 @@ export default {
                 videoImage: form.videoImage,
                 videoName: form.videoName,
                 videoSummary: form.videoSummary,
+                videoType: 'test'
             });
 
-            axios.post(this.$globalInternet + "/course/updateVideoTopic", formData, {
+            axios.put(this.$globalInternet + "/course/video_course", formData, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'token': getToken() // 使用 getToken() 获取 token 的值

@@ -200,6 +200,20 @@ export default {
 
         Jumpmodify(introduction) {   //跳转修改或者添加视频简介
             console.log(introduction)
+            if (introduction !== undefined) {   //分别采用携带参数和非参数跳转
+                this.$router.push({
+                    name: 'VideoIntroduction',
+                    params: {
+                        introduction: JSON.stringify(introduction)
+                    }
+                });
+            } else {
+                this.$router.push({
+                    name: 'VideoIntroAdd',
+                    params: {
+                    }
+                });
+            }
         }
     }
 }

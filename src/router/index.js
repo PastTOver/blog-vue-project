@@ -122,10 +122,16 @@ const routes = [
     props: true
   },
   {
-    path: '/VideoIntroduction',
+    path: '/VideoIntroduction/:introduction',
     name: 'VideoIntroduction',
     component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroduction.vue'),
-    props: true
+    props: true,
+  },
+  {
+    path: '/VideoIntroAdd',
+    name: 'VideoIntroAdd',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroAdd.vue'),
+    props: true,
   },
   {
     path: '/personalCenter/inPersonalCenter',
