@@ -29,3 +29,18 @@ export function getImg() {
 export function clearImg() {
   localStorage.removeItem('img');
 }
+
+// 存储支付跳转URL
+export function setUrl(url) {
+  localStorage.setItem('url', url);
+}
+
+// 获取图片支付跳转URL
+export function getUrl() {
+  return localStorage.getItem('url');
+}
+
+// 清除图片支付跳转URL
+export function clearUrl() {
+  localStorage.removeItem('url');
+}

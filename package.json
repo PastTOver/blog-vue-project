@@ -15,6 +15,7 @@
     "markdown-it": "^13.0.1",
     "markdown-it-toc-done-right": "^4.2.0",
     "marked": "^5.1.0",
+    "qs": "^6.11.2",
     "querystring": "^0.2.1",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
