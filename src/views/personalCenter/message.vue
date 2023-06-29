@@ -9,18 +9,20 @@
             <div class="left-text">
                 联系人
             </div>
-            <div class="left-contact" style="border: 2px solid #c8d4e7;" v-for="value in contacts" 
-            @click="selectMessage($event)" :id="value.id" :title="value.avatar">
+            <div v-if="isReloadData" class="left-contact" style="border: 2px solid #c8d4e7;" v-for="value in contacts"
+                @click="selectMessage($event)" :id="value.id" :title="value.avatar" :nickName="value.nickName">
                 <img class="left-contact-img" :src="value.avatar">
-                {{ value.nickName }}
+                <el-badge :value="this.messageCount.count" :max="99" class="item">
+                    {{ value.nickName }}
+                </el-badge>
             </div>
         </div>
         <div class="message-right">
             <div class="message-object">
-                聊天对象
+                {{ this.contact.nickName }}
             </div>
             <div class="txt-all">
-                <el-main direction="vertical">
+                <el-scrollbar class="el-scrollbar" direction="vertical" ref="myScrollbar">
                     <div style="width: 610px;">
                         <div class="left-contact" v-for="value in messages">
                             <div class="left-contact-text-time">
@@ -35,18 +37,21 @@
                                 <span>{{ value.messageContent }}</span>
                             </div>
                         </div>
+                        <!-- <div>底部</div> -->
                     </div>
-                </el-main>
+                </el-scrollbar>
             </div>
             <div class="message-input-box">
                 <div class="box-tool">
-                    <span>表情</span>
+                    <span>输入窗口</span>
                 </div>
                 <div class="box-text">
-                    <!-- <lay-textarea placeholder="发送内容" v-model="data"></lay-textarea> -->
+                    <el-input class="el-input" type="textarea" resize="none" :rows="3" placeholder="请输入内容"
+                        v-model="messageContent">
+                    </el-input>
                 </div>
                 <div class="box-send">
-                    <!-- <lay-button class="send-button" border="green" @click="send">发送</lay-button> -->
+                    <el-button class="send-button" type="primary" @click="send">发送</el-button>
                 </div>
             </div>
         </div>
@@ -54,15 +59,25 @@
 </template>
   
 <script>
-
+import { setToken, getToken, clearToken, getImg } from '../../storage.js'  //临时存放Token
 export default {
     data() {
         return {
             contacts: {},
             messages: {},
-            params: {},
+            params: {
+                id: "",
+            },
             user: {},
-            contact: {}
+            contact: {
+                nickName: "聊天对象"
+            },
+            messageContent: "",
+            time: null,
+            messageCount: {
+                count: 0
+            },
+            isReloadData: true
         }
     },
     methods: {
@@ -73,12 +88,25 @@ export default {
                     console.log(ret.data)
                     this.contacts = ret.data.data
                     console.log(this.contacts)
+                    this.messageCount.id = this.contacts[0].id
                 })
         },
         selectMessage(id) {
+            // 获取当前点击对象的属性
             this.contact.id = id.target.id;
             this.contact.avatar = id.target.title;
+            this.contact.nickName = id.currentTarget.getAttributeNode('nickName').value
             this.params.id = id.target.id
+            console.log(this.contact)
+            this.$store
+                .dispatch("selectMessage", this.params)
+                .then((ret) => {
+                    console.log(ret.data)
+                    this.messages = ret.data.data
+                    console.log(this.messages)
+                })
+        },
+        flushedMessage() {
             this.$store
                 .dispatch("selectMessage", this.params)
                 .then((ret) => {
@@ -95,12 +123,80 @@ export default {
                     this.user.id = ret.data.data.id
                     this.user.avatar = ret.data.data.avatar
                 })
+        },
+        send() {
+            if (this.params.id === "") {
+                this.handleClose("请先选择发送对象!")
+                return false
+            }
+            if (this.messageContent === "") {
+                this.handleClose("发送内容为空!")
+                return false
+            }
+            this.params.messageContent = this.messageContent
+            console.log(this.params)
+            this.$store
+                .dispatch("sendMessage", this.params)
+                .then((ret) => {
+                    console.log(ret.data)
+                    if (ret.data.data === "发送成功") {
+                        console.log(ret.data.data)
+                        this.messageContent = ""
+                        // this.flushedMessage()
+                    }
+                })
+        },
+        selectMessageCount() {
+            this.$store
+                .dispatch("selectMessageCount", this.messageCount)
+                .then((ret) => {
+                    console.log(ret.data)
+                    this.messageCount.count = ret.data.data
+                    console.log(this.messageCount)
+                })
+        },
+        // 提示
+        handleClose(txt) {
+            this.$alert(txt, {
+                confirmButtonText: '确定',
+            });
+        },
+        queryInfo() {
+            console.log(this.time)
+            // console.log("刷新")
+            this.flushedMessage()
+        },
+        reload() {
+            this.isReloadData = false;
+            this.$nextTick(() => {
+                this.isReloadData = true;
+            })
+            this.selectMessageCount()
         }
     },
-    mounted: function () {
+    mounted() {
+        console.log(getToken)
         this.selectContacts();
         this.selectUser();
-    }
+        this.time = setInterval(() => {
+            if (this.params.id != "") {
+                this.queryInfo()
+            }
+            this.reload()
+        }, 1500)
+    },
+    watch: {
+        $route(to, from) {
+            console.log(to.path);
+            clearInterval(this.time);
+        }
+    },
+    beforeDestroy() {
+        clearInterval(this.time);
+    },
+    // updated() {
+    //     this.$refs.myScrollbar.scrollTop = this.$refs.myScrollbar.clientHeight;
+    // }
 }
 </script>
   
@@ -123,7 +219,7 @@ export default {
     padding-top: 5px;
 }
 
-.el-main {
+.el-scrollbar {
     width: 619px;
     height: 480px;
     display: flex;
@@ -132,6 +228,11 @@ export default {
     border-style: double;
     border-color: #99a2aa;
     padding: 0px;
+}
+
+.el-input {
+    height: 100%;
+    resize: none;
 }
 
 .text-01 {
@@ -169,7 +270,7 @@ export default {
 
 .left-contact-text-time {
     float: left;
-    width: 590px;
+    width: 600px;
     text-align: center;
 }
 
@@ -198,6 +299,7 @@ export default {
 }
 
 .box-tool {
+    padding-left: 5px;
     height: 25%;
     border: 2px solid #ced3db;
 }
@@ -208,13 +310,14 @@ export default {
 }
 
 .box-send {
-    padding: 20px 5px 0;
+    padding-right: 5px;
     height: 30%;
+    width: 100%;
     border: 2px solid #ced3db;
+    text-align: right;
 }
 
 .send-button {
-    float: right;
     width: 70px;
     height: 35px;
 }
@@ -247,6 +350,12 @@ export default {
 .emojis {
     border: 1px solid black;
     padding: 5px 10px 5px 10px
+}
+
+.item {
+    padding-left: 10px;
+    margin-top: 10px;
+    margin-right: 40px;
 }
 </style>
  
