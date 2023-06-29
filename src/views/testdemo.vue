@@ -1,72 +1,59 @@
 <template>
-    <div class="h-100">
-      <div class="container video-collections-show mb-2rem">
-        <div class="row">
-          <div class="col-lg-8">
-            <p class="font-size-12 text-muted mb-1">名称</p>
-            <h1 class="h4 mb-2rem">Docker 快速入门视频</h1>
-              <div class="collections-syllabus">
-                  <div
-                    class="lecture-group-title clearfix"
-                    @click="toggleSyllabus"
-                    :class="{ collapsed: isCollapsed }"
-                    :aria-expanded="!isCollapsed"
-                  >
-                    <div class="title float-left">视频列表</div>
-                    <div class="float-right">
-                      <span class="total-lectures">10 Lectures</span>
-                      <span class="total-time">00:00</span>
-                    </div>
-                  </div>
-                <div
-                  class="lecture-list"
-                  :class="{ collapse: isCollapsed, show: !isCollapsed }"
-                >
-                  <ul class="font-size-14">
-                    <a href="videos-show-lecture.html">
-                      <li class="lecture">
-                        <span class="lecture-title">安装 Docker</span>
-                        <div class="float-right">
-                          <span class="lecture-time">00:00</span>
-                        </div>
-                      </li>
-                    </a>
-                    <!-- 其他讲座 -->
-                  </ul>
-                </div>
-              </div>
-
-          </div>
-        </div>
-      </div>
-      <footer class="blog-footer mt-auto">
-        <div class="container text-muted">
-          <p class="text-center text-lg-left">
-            <span>Designed by <a href="#">@example</a> - From idea to reality</span>
-          </p>
-        </div>
-      </footer>
+    <div>
+        <input type="file" ref="fileInput" @change="handleFileChange" accept="video/*" />
+        <button @click="uploadVideo">上传视频</button>
     </div>
-  </template>
+    <div>
+        <input type="text" v-model="videoLink" placeholder="输入视频链接" />
+        <button @click="playVideo">播放</button>
+
+        <div class="video-container">
+            <video ref="videoPlayer" controls>
+                <source :src="videoLink" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</template>
   
 <script>
-  export default {
-    name: 'DockerQuickStart',
+import axios from 'axios';
+import { setToken, getToken, clearToken, setImg } from '../storage'  //临时存放Token
+
+export default {
     data() {
-      return {
-        isCollapsed: true
-      };
+        return {
+            videoFile: null,
+            videoLink: 'https://edu-resources-save.oss-cn-beijing.aliyuncs.com/docAvatar/5eac40e4-fd90-4698-9bf4-b0dd0be12d02.mp4' // 存放视频链接的变量
+        };
     },
     methods: {
-      toggleSyllabus() {
-        this.isCollapsed = !this.isCollapsed;
-      }
-    }
-  }
+        handleFileChange(event) {
+            this.videoFile = event.target.files[0];
+        },
+        uploadVideo() {
+            // 创建FormData对象
+            const formData = new FormData();
+            formData.append('file', this.videoFile);
+
+            // 设置请求头部
+            const config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    token: getToken(), // 替换为实际的token值
+                },
+            };
+
+            // 发送视频上传请求
+            axios.put(this.$globalInternet + '/course/document_course/avatar', formData, config)
+                .then(response => {
+                    console.log(response.data); // 上传成功的处理逻辑
+                })
+                .catch(error => {
+                    console.error(error); // 错误处理逻辑
+                });
+        },
+    },
+};
 </script>
-  
-<style scoped>
-    @import '../assets/css/app.css';
-    @import '../assets/vendor/bootstrap-icons/font/bootstrap-icons.css';
-</style>
   
