@@ -98,9 +98,33 @@ const routes = [
     props: true
   },
   {
+    path: '/videosDetail',
+    name: 'videosDetail',
+    component: () => import(/* webpackChunkName: "videosDetail.vue" */ '../views/videosDetail.vue'),
+    props: true
+  },
+  {
+    path: '/videosmanage',
+    name: 'videosmanage',
+    component: () => import(/* webpackChunkName: "videosmanage.vue" */ '../views/videosmanage.vue'),
+    props: true
+  },
+  {
+    path: '/videos-show-leture',
+    name: 'videos-show-leture',
+    component: () => import(/* webpackChunkName: "videos-show-leture.vue" */ '../views/videos-show-leture.vue'),
+    props: true
+  },
+  {
     path: '/resources-show',
     name: 'resources-show',
     component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/resources-show.vue'),
+    props: true
+  },
+  {
+    path: '/VideoIntroduction',
+    name: 'VideoIntroduction',
+    component: () => import(/* webpackChunkName: "resources-show.vue" */ '../views/VideoIntroduction.vue'),
     props: true
   },
   {

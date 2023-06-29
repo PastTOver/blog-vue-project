@@ -224,4 +224,8 @@ export default {
   padding: 5px;
   cursor: pointer;
 }
+
+ui {
+  z-index: 9999;
+}
 </style>
