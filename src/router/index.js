@@ -130,6 +130,11 @@ const routes = [
         component: () => import('../views/personalCenter/resource.vue'),
         props: true
       },
+      {
+        path: '/myDocs',
+        component: () => import('../views/myDocs.vue'),
+        props: true
+      },
     ]
   }
 ]

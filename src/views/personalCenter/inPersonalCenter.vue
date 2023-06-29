@@ -16,8 +16,8 @@
                         <router-link tag="div" to='/personalCenter/message'>
                             <el-button type="primary" class="lay-button">消息记录</el-button>
                         </router-link>
-                        <router-link tag="div" to='/personalCenter/resource'>
-                            <el-button type="primary" class="lay-button">资源记录</el-button>
+                        <router-link tag="div" to='/myDocs'>
+                            <el-button type="primary" class="lay-button">我的文档</el-button>
                         </router-link>
                     </ul>
                 </el-aside>

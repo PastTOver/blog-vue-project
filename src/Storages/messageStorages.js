@@ -30,7 +30,23 @@ const messageStorages = {
                 },
                 params: params
             })
-        }
+        },
+        sendMessage({ commit, state }, params) {
+            return axios.post(state.messageDataUrl + "/sendInformation", params, {
+                headers: {
+                    token: state.token(),
+                },
+                params: params
+            })
+        },
+        selectMessageCount({ commit, state }, params) {
+            return axios.get(state.messageDataUrl + "/unreadPartialInformation/", {
+                headers: {
+                    token: state.token(),
+                },
+                params: params
+            })
+        },
     }
 }
 
