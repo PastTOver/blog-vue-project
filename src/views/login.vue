@@ -1,22 +1,8 @@
 <template>
-  <vue-particles class="particles-js"
-        color="#fff"
-        :particleOpacity="0.7"
-        :particlesNumber="60"
-        shapeType="circle"
-        :particleSize="4"
-        linesColor="#fff"
-        :linesWidth="1"
-        :lineLinked="true"
-        :lineOpacity="0.4"
-        :linesDistance="150"
-        :moveSpeed="2"
-        :hoverEffect="true"
-        hoverMode="grab"
-        :clickEffect="true"
-        clickMode="push"
-      >
-    </vue-particles>
+  <vue-particles class="particles-js" color="#fff" :particleOpacity="0.7" :particlesNumber="60" shapeType="circle"
+    :particleSize="4" linesColor="#fff" :linesWidth="1" :lineLinked="true" :lineOpacity="0.4" :linesDistance="150"
+    :moveSpeed="2" :hoverEffect="true" hoverMode="grab" :clickEffect="true" clickMode="push">
+  </vue-particles>
   <section class="w3l-form-36">
     <div class="form-36-mian section-gap">
       <div class="wrapper">
@@ -278,7 +264,7 @@ html {
 
 .wrapper {
   width: 100%;
-  margin-left: 500px;
+  margin-left: 23%;
   position: absolute;
 }
 
