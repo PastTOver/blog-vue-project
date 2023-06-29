@@ -190,11 +190,12 @@
 <script>
 import axios from 'axios';
 import { ElLoading } from "element-plus";
-import { getToken, clearToken } from "@/storage";
+import { getToken, clearToken ,setUrl} from "@/storage";
 export default {
   setup() {},
   created() {},
   mounted() {
+    setUrl(window.location.href)
     this.globalLoading(true);
     this.init_page();
   },
@@ -231,14 +232,15 @@ export default {
     };
   },
   methods: {
-    pay() {
+    pay() { 
       if (!getToken()) {
         //如果没登陆
         this.handleNoAuth();
         return;
       }
       console.log('uid:',this.uid)
-      //支付模块
+      console.log(this.docDetail.documentTopics.documentName)
+      // 支付模块
       axios
         .post(
           this.$globalInternet + "/alipay/pay",
@@ -248,6 +250,7 @@ export default {
             uid: this.uid,
             did: this.docDetail.documentTopics.id,
             price: this.docDetail.documentTopics.price,
+
           },
           {
             headers: {
@@ -259,6 +262,7 @@ export default {
         .then((response) => {
           // 请求成功的处理逻辑
           console.log(response.data);
+
           this.skipHtml = response.data;
           setTimeout(() => {
             document.forms[0].submit();

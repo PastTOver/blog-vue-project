@@ -1,4 +1,6 @@
-<template></template>
+<template>
+<h3>支付成功</h3>
+</template>
 
 <script>
 import axios from 'axios';
