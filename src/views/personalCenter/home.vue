@@ -58,7 +58,7 @@ export default {
                 .dispatch("getUserData")
                 .then((ret) => {
                     console.log(ret.data)
-                    this.nickname = ret.data.data.userName
+                    this.nickname = ret.data.data.nickName
                     this.email = ret.data.data.email
                     this.phone = ret.data.data.phonenumber
                     this.img = ret.data.data.avatar

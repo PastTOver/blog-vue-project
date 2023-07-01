@@ -41,14 +41,14 @@
             </div>
             <div>
               <p
-                v-if="docDetail.documentTopics.resourceIsFree == 1 && !canShow"
+                v-if="docDetail.documentTopics.resourceIsFree == 1 "
                 class="text-danger"
               >
                 价格:{{ docDetail.documentTopics.price }}
               </p>
-              <p v-else-if="docDetail.canShow" class="text-success">
+              <!-- <p v-else-if="docDetail.canShow" class="text-success">
                 您已经购买
-              </p>
+              </p> -->
               <p v-else class="text-success">免费</p>
             </div>
           </div>
@@ -133,7 +133,7 @@
                   <ul class="font-size-20">
                     <div v-for="sitem in item.sonContent">
                       <router-link
-                        v-if="sitem.canShow"
+                        v-if="sitem.canShow "
                         :to="{ name: 'showMdDoc', params: { id: sitem.id } }"
                       >
                         <li class="lecture doc">
@@ -141,8 +141,9 @@
                             sitem.titleName
                           }}</span>
                           <div class="float-right">
+                            
                             <div
-                              v-if="sitem.resourceIsFree == 0"
+                              v-if="sitem.resourceIsFree == 0 || this.docDetail.documentTopics.resourceIsFree==0"
                               style="color: green"
                             >
                               本资源免费
@@ -157,14 +158,14 @@
                         </li>
                       </router-link>
                       <li
-                        @click="this.$alert('您请先购买本模块内容', '提示')"
+                        @click="handleSkipClick(sitem)"
                         style="cursor: pointer"
                         v-else
                         class="lecture doc"
                       >
                         <span class="lecture-title">{{ sitem.titleName }}</span>
                         <div class="float-right">
-                          <div v-if="!sitem.canShow" style="color: red">
+                          <div v-if="!sitem.canShow &&  docDetail.documentTopics.resourceIsFree==1" style="color: red">
                             付费解锁
                           </div>
                           <div v-else style="color: green">免费</div>
@@ -232,6 +233,13 @@ export default {
     };
   },
   methods: {
+    handleSkipClick(sitem){
+      if(!sitem.canShow &&  this.docDetail.documentTopics.resourceIsFree==1){
+        alert("请先购买！")
+      }else{
+        console.log(sitem)
+      }
+    },
     pay() { 
       if (!getToken()) {
         //如果没登陆

@@ -122,6 +122,8 @@ export default {
             })
                 .then(response => {
                     console.log(response.data); // 处理成功的逻辑
+                    this.$router.go(-1);
+
                 })
                 .catch(error => {
                     console.error(error); // 错误处理逻辑

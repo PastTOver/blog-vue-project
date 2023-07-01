@@ -58,7 +58,7 @@
             <div class="box-send">
               <el-button class="send-button" type="primary" @click="sendComment">发送</el-button>
             </div>
-            <el-scrollbar class="box-comment">
+            <el-scrollbar v-if="isReloadData" class="box-comment">
               <div style="padding: 10px;">
                 <div class="comment-user" v-for="value in coments">
                   <img class="comment-img" :src="value.avatar">
@@ -123,7 +123,7 @@ export default {
       isReloadData: true,
       time: null,
       uid: null,   //用户id
-      authorName: null   //作者名称
+      authorName: null,   //作者名称
     };
   },
   mounted() {
