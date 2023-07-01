@@ -37,7 +37,6 @@ const docStorage = {
     getDocDetail_Free({ commit, state }, params) {
       return axios.get(state.docBaseUrl + "/document_course/free", {
         headers: {
-
           "Access-Control-Allow-Origin": "http://localhost:8081" 
         },
         params,
@@ -46,7 +45,6 @@ const docStorage = {
     getDocDetailBy_DetailId_Free({ commit, state }, params) {
       return axios.get(state.docBaseUrl + "/document_docById/free", {
         headers: {
-
         },
         params,
       });
